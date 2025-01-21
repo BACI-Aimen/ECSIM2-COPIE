@@ -1,0 +1,37 @@
+# FrontEndend React Native
+FrontEnd/node_modules/
+FrontEnd/build/
+FrontEnd/.expo/
+FrontEnd/__generated__/
+
+# BackEndend Node.js
+BackEnd/node_modules/
+BackEnd/coverage/
+BackEnd/dist/
+
+# Logs globaux
+**/*.log
+
+# Fichiers d'environnement
+**/.env
+**/.env.*
+
+# Caches et configurations d'éditeurs
+.vscode/
+.idea/
+.DS_Store
+
+# Fichiers spécifiques Android
+FrontEnd/android/local.properties
+FrontEnd/android/.gradle/
+FrontEnd/android/app/build/
+
+# Fichiers spécifiques iOS
+FrontEnd/ios/Pods/
+FrontEnd/ios/build/
+FrontEnd/ios/xcuserdata/
+FrontEnd/ios/DerivedData/
+
+# Autres fichiers générés ou temporaires
+FrontEnd/.expo/
+BackEnd/.cache/

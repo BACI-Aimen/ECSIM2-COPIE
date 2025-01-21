@@ -5,6 +5,7 @@ const transporter = require('../helper/emailConfig');
 const jwt = require('jsonwebtoken');
 exports.loginUser = async (req, res) => {
   try {
+    //test com
     const { mail_utilisateur, mot_de_passe } = req.body;
     if (!mail_utilisateur || !mot_de_passe) {
       return res.status(400).json({ error: 'Email et mot de passe requis.' });
@@ -15,7 +16,9 @@ exports.loginUser = async (req, res) => {
     if (!utilisateur) {
       return res.status(400).json({ error: 'Utilisateur non trouvé.' });
     }
-
+    if(utilisateur.pseudo_utilisateur===null)
+    first_connexion = true
+    else first_connexion = false
     // Comparer le mot de passe avec le mot de passe haché
     const match = await bcrypt.compare(mot_de_passe, utilisateur.mdp_utilisateur);
     if (!match) {
@@ -31,7 +34,7 @@ exports.loginUser = async (req, res) => {
     // Générer le token JWT avec une expiration de 1 heure
     const token = jwt.sign(payload, process.env.JWT_SECRET_USER, { expiresIn: '1h' });
 
-    return res.status(200).json({ message: 'Connexion réussie', token });
+    return res.status(200).json({ message: 'Connexion réussie', token, first_connexion });
   } catch (err) {
     console.error("Erreur interne :", err.message);
     return res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur' });
@@ -52,7 +55,9 @@ exports.loginAdmin = async (req, res) => {
     if (!utilisateur) {
       return res.status(400).json({ error: 'Utilisateur non trouvé.' });
     }
-
+    if(utilisateur.pseudo_utilisateur===null)
+      first_connexion = true
+      else first_connexion = false
     // Comparer le mot de passe avec le mot de passe haché
     const match = await bcrypt.compare(mot_de_passe, utilisateur.mdp_utilisateur);
     if (!match) {
@@ -73,7 +78,7 @@ exports.loginAdmin = async (req, res) => {
     // Générer le token JWT avec une expiration de 1 heure
     const token = jwt.sign(payload, process.env.JWT_SECRET_ADMIN, { expiresIn: '1h' });
 
-    return res.status(200).json({ message: 'Connexion réussie', token });
+    return res.status(200).json({ message: 'Connexion réussie', token,first_connexion });
   } catch (err) {
     console.error("Erreur interne :", err.message);
     return res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur' });

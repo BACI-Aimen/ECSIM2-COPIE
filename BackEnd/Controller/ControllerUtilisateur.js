@@ -5,7 +5,6 @@ const transporter = require('../helper/emailConfig');
 const jwt = require('jsonwebtoken');
 exports.loginUser = async (req, res) => {
   try {
-    //test com
     const { mail_utilisateur, mot_de_passe } = req.body;
     if (!mail_utilisateur || !mot_de_passe) {
       return res.status(400).json({ error: 'Email et mot de passe requis.' });

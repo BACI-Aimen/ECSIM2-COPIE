@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
-import { Text, TextInput, Button, StyleSheet } from 'react-native';
+import { Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import UtilisateurService from "../../../Services/UtilisateurService"; // Remplace par le bon chemin
-import FetchClient from '../../../ServiceClients/FectchClient'; // Remplace par le bon chemin
+import UtilisateurService from "../../../Services/UtilisateurService";
+import FetchClient from '../../../ServiceClients/FectchClient'; 
 
 const ConnexionMain = () => {
-  const [retourAPI, setRetourAPI] = useState(null);
   const [login, setLogin] = useState("");
   const [Mdp, setMdp] = useState("");
 
   const navigation = useNavigation();
+
+  const alert = (message: string) => {
+    Alert.alert("Votre connexion", message, [
+      {
+        text: 'Ok'
+      }
+    ])
+  }
 
   const handleConnexion = async () => {
     const API_Utilisateur = new UtilisateurService(FetchClient);
@@ -18,9 +25,9 @@ const ConnexionMain = () => {
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
-      setRetourAPI(retour.error || retour.message);
+      navigation.navigate("Home")
     } catch (error: any) {
-      setRetourAPI(error);
+      alert(error)
     }
   };
 
@@ -41,10 +48,6 @@ const ConnexionMain = () => {
           value={Mdp}
         />
         <Button onPress={handleConnexion} title="Se connecter" />
-        <Button onPress={() => navigation.navigate("Home")} title="Direction le Home" />
-        <Text>
-          {typeof retourAPI === "string" ? retourAPI : JSON.stringify(retourAPI, null, 2)}
-        </Text>
       </SafeAreaView>
     </SafeAreaProvider>
   );

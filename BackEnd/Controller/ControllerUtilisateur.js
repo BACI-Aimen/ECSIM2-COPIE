@@ -7,13 +7,13 @@ exports.loginUser = async (req, res) => {
   try {
     const { mail_utilisateur, mot_de_passe } = req.body;
     if (!mail_utilisateur || !mot_de_passe) {
-      return res.status(400).json({ error: 'Email et mot de passe requis.' });
+      return res.status(400).json({ error: 'Email et mot de passe requis.',message: 'Les champs ne doivent pas etre vide' });
     }
 
     // Rechercher l'utilisateur dans la base de données
     const utilisateur = await ModelUtilisateur.trouverParEmail(mail_utilisateur);
     if (!utilisateur) {
-      return res.status(400).json({ error: 'Utilisateur non trouvé.' });
+      return res.status(400).json({ error: 'Utilisateur non trouvé.',message: 'Utilisateur non existant' });
     }
     if(utilisateur.pseudo_utilisateur===null)
     first_connexion = true
@@ -21,7 +21,7 @@ exports.loginUser = async (req, res) => {
     // Comparer le mot de passe avec le mot de passe haché
     const match = await bcrypt.compare(mot_de_passe, utilisateur.mdp_utilisateur);
     if (!match) {
-      return res.status(400).json({ error: 'Mot de passe incorrect.' });
+      return res.status(400).json({ error: 'Mot de passe incorrect.' ,message: 'Mot de passe incorrect.'});
     }
 
     // Créer le payload pour le token (ex: l'ID de l'utilisateur)
@@ -52,7 +52,7 @@ exports.loginAdmin = async (req, res) => {
     // Rechercher l'utilisateur dans la base de données
     const utilisateur = await ModelUtilisateur.trouverParEmail(mail_utilisateur);
     if (!utilisateur) {
-      return res.status(400).json({ error: 'Utilisateur non trouvé.' });
+      return res.status(400).json({ error: 'Utilisateur non trouvé.',message: 'Utilisateur non existant' });
     }
     if(utilisateur.pseudo_utilisateur===null)
       first_connexion = true
@@ -60,12 +60,12 @@ exports.loginAdmin = async (req, res) => {
     // Comparer le mot de passe avec le mot de passe haché
     const match = await bcrypt.compare(mot_de_passe, utilisateur.mdp_utilisateur);
     if (!match) {
-      return res.status(400).json({ error: 'Mot de passe incorrect.' });
+      return res.status(400).json({ error: 'Mot de passe incorrect.',message: 'Mot de passe incorrect.' });
     }
 
     // Vérifier si l'utilisateur est un administrateur
     if (!utilisateur.isAdmin) {
-      return res.status(403).json({ error: 'Accès réservé aux administrateurs.' });
+      return res.status(403).json({ error: 'Accès réservé aux administrateurs.',message: 'Accès réservé aux administrateurs.' });
     }
 
     // Créer le payload pour le token (ex: l'ID de l'utilisateur)

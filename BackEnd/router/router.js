@@ -3,6 +3,8 @@ module.exports = function(app) {
     const ControllerMur = require('../Controller/ControllerMur');
     const ControllerUtilisateur = require('../Controller/ControllerUtilisateur');
     const ControllerPodometre = require('../Controller/ControllerPodometre');
+    const ConrollerClassement = require('../Controller/ControllerClassement');
+
     const jwt = require('../middleware/verifyJwtToken');
     // se connecter
     //GESTION DES MURS
@@ -14,5 +16,8 @@ module.exports = function(app) {
     app.post('/loginAdmin', ControllerUtilisateur.loginAdmin)
     //PODOMETRE
     app.post('/addNbPasJour', jwt.verifyTokenUser,ControllerPodometre.ajouterPodometre)
+    //CLASSEMENT
+    app.get('/classementUtilisateurActuel', jwt.verifyTokenUser,ConrollerClassement.getClassementUtilisateurActuel)
+
 }
 

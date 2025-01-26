@@ -2,6 +2,7 @@ const upload = require('../server').upload;
 module.exports = function(app) {
     const ControllerMur = require('../Controller/ControllerMur');
     const ControllerUtilisateur = require('../Controller/ControllerUtilisateur');
+    const ControllerPodometre = require('../Controller/ControllerPodometre');
     const jwt = require('../middleware/verifyJwtToken');
     // se connecter
     //GESTION DES MURS
@@ -11,7 +12,7 @@ module.exports = function(app) {
     app.post('/createUser',jwt.verifyTokenAdmin, ControllerUtilisateur.creerCompteUser)
     app.post('/loginUser', ControllerUtilisateur.loginUser)
     app.post('/loginAdmin', ControllerUtilisateur.loginAdmin)
-
-
+    //PODOMETRE
+    app.post('/addNbPasJour', jwt.verifyTokenUser,ControllerPodometre.ajouterPodometre)
 }
 

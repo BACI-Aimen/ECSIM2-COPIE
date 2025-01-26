@@ -1,8 +1,11 @@
 require('dotenv').config();
 const ModelUtilisateur = require('../Model/ModelUtilisateur');
+const ModelMur = require('../Model/ModelMur');
 const bcrypt = require('bcrypt');
 const transporter = require('../helper/emailConfig');
 const jwt = require('jsonwebtoken');
+const uploadPhoto = require('../helper/upload-photo'); // Importez la fonction pour télécharger la photo
+
 exports.loginUser = async (req, res) => {
   try {
     const { mail_utilisateur, mot_de_passe } = req.body;
@@ -151,3 +154,49 @@ function generateRandomPassword() {
     // Mélanger les caractères
     return password.split('').sort(() => 0.5 - Math.random()).join('');
 }
+
+exports.finaliserInscription = async (req, res) => {
+  try {
+    // Vérifier que Multer a bien placé le fichier dans req.file
+    const photo_mur = req.file;  
+    const id_utilisateur = req.user.id_utilisateur;
+    if (!photo_mur) {
+        return res.status(400).json({ error: "Le fichier photo_mur est requis." });
+    }
+    const { pseudo, nouveauMotDePasse, confirmerNouveauMotDePasse } = req.body;
+
+    if (!pseudo || !nouveauMotDePasse || !confirmerNouveauMotDePasse) {
+      return res.status(400).json({ error: 'Pseudo, nouveau mot de passe et confirmation requis.' });
+    }
+    // Vérification que les mots de passe correspondent
+    if (nouveauMotDePasse !== confirmerNouveauMotDePasse) {
+      return res.status(400).json({ error: 'Les mots de passe ne correspondent pas.' });
+    }
+    // Appel à la fonction uploadPhoto pour télécharger la photo dans Supabase
+    const photoURL = await uploadPhoto(photo_mur);  // Utilisez photo_mur comme fichier binaire        
+    if (!photoURL) {
+        return res.status(500).json({ error: "Erreur lors du téléchargement de la photo." });
+    }
+    
+    // Appel au modèle pour ajouter un mur avec l'URL de la photo téléchargée
+    const nouveauMur = await ModelMur.ajouterMur(photoURL);
+    if (photo_mur && photo_mur.path) {
+      fs.unlink(photo_mur.path, (err) => {
+          if (err) {
+              console.error("Erreur lors de la suppression du fichier temporaire:", err.message);
+          } else {
+              console.log("Fichier temporaire supprimé avec succès.");
+          }
+      });
+  }
+  //Hash le mot de passe
+  const saltRounds = 10;
+        
+  const motDePasseHache = await bcrypt.hash(nouveauMotDePasse, saltRounds);
+  await ModelUtilisateur.updateUtilisateur(id_utilisateur, pseudo, motDePasseHache,nouveauMur.id_mur);   
+  return res.status(201).json({ message: "Inscription reussie"});
+} catch (err) {
+    console.error("Erreur interne :", err.message);
+    return res.status(500).json({ error: 'Erreur lors de l\'inscription' });
+}
+};

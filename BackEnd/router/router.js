@@ -9,11 +9,12 @@ module.exports = function(app) {
     // se connecter
     //GESTION DES MURS
     app.get('/mur/:id_mur',                                                                     ControllerMur.recupererMur)
-    app.post('/mur',                                                                            upload.single('photo_mur'), ControllerMur.ajouterMur); 
+   // app.post('/addmur',                                         jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerMur.ajouterMur); 
     //GESTION DES UTILISATEURS
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
     app.post('/loginUser',                                                                      ControllerUtilisateur.loginUser)
     app.post('/loginAdmin',                                                                     ControllerUtilisateur.loginAdmin)
+    app.post('/finaliserInscription',                           jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerUtilisateur.finaliserInscription); 
     //PODOMETRE
     app.post('/addNbPasJour',                                   jwt.verifyTokenUser,            ControllerPodometre.ajouterPodometre)
     //CLASSEMENT

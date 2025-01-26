@@ -62,3 +62,25 @@ exports.trouverParEmail = async (email) => {
   }
 };
 
+exports.updateUtilisateur = async (id_utilisateur, pseudo_utilisateur, mdp_utilisateur, id_mur) => {
+  try {
+    const { data, error } = await supabase
+      .from('utilisateur')  // Nom de la table
+      .update({
+        pseudo_utilisateur,
+        mdp_utilisateur,
+        id_mur, 
+      })
+      .eq('id_utilisateur', id_utilisateur);  // Filtrer par l'ID de l'utilisateur
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    // Retourner les nouvelles informations de l'utilisateur après la mise à jour
+    return data; 
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour de l\'utilisateur:', err.message);
+    throw err;
+  }
+};

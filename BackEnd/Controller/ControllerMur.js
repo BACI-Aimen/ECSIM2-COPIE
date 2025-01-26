@@ -2,7 +2,7 @@ require('dotenv').config();
 const ModelMur = require('../Model/ModelMur');
 const uploadPhoto = require('../helper/upload-photo'); // Importez la fonction pour télécharger la photo
 
-
+//a supp
 exports.ajouterMur = async (req, res) => {
     try {
         // Vérifier que Multer a bien placé le fichier dans req.file

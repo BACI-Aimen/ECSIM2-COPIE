@@ -15,7 +15,7 @@ module.exports = function(app) {
     //GESTION DES UTILISATEURS
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
     app.post('/loginUser',                                      verif.login,                    ControllerUtilisateur.loginUser)
-    app.post('/loginAdmin',                                                                     ControllerUtilisateur.loginAdmin)
+    app.post('/loginAdmin',                                     verif.login,                    ControllerUtilisateur.loginAdmin)
     app.post('/finaliserInscription',                           jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerUtilisateur.finaliserInscription); 
     //PODOMETRE
     app.post('/addNbPasJour',                                   jwt.verifyTokenUser,            ControllerPodometre.ajouterPodometre)

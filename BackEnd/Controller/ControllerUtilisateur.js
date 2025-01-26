@@ -193,7 +193,7 @@ exports.finaliserInscription = async (req, res) => {
   const saltRounds = 10;
         
   const motDePasseHache = await bcrypt.hash(nouveauMotDePasse, saltRounds);
-  await ModelUtilisateur.updateUtilisateur(id_utilisateur, pseudo, motDePasseHache,nouveauMur.id_mur);   
+  await ModelUtilisateur.updateUtilisateurInscription(id_utilisateur, pseudo, motDePasseHache,nouveauMur.id_mur);   
   return res.status(201).json({ message: "Inscription reussie"});
 } catch (err) {
     console.error("Erreur interne :", err.message);

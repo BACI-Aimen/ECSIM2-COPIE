@@ -62,7 +62,7 @@ exports.trouverParEmail = async (email) => {
   }
 };
 
-exports.updateUtilisateur = async (id_utilisateur, pseudo_utilisateur, mdp_utilisateur, id_mur) => {
+exports.updateUtilisateurInscription = async (id_utilisateur, pseudo_utilisateur, mdp_utilisateur, id_mur) => {
   try {
     const { data, error } = await supabase
       .from('utilisateur')  // Nom de la table

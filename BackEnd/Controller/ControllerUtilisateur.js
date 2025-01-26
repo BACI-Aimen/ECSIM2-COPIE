@@ -177,7 +177,10 @@ exports.finaliserInscription = async (req, res) => {
     if (!photoURL) {
         return res.status(500).json({ error: "Erreur lors du téléchargement de la photo." });
     }
-    
+    // Vérification de la taille de l'image
+    if (photo_mur.size > 1 * 1024 * 1024) {  // Limite de 1 Mo
+      return res.status(400).json({ error: "La taille de l'image ne doit pas dépasser 1 Mo." });
+    }
     // Appel au modèle pour ajouter un mur avec l'URL de la photo téléchargée
     const nouveauMur = await ModelMur.ajouterMur(photoURL);
     if (photo_mur && photo_mur.path) {

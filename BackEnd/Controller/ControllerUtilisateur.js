@@ -32,11 +32,18 @@ exports.loginUser = async (req, res) => {
       id_utilisateur: utilisateur.id_utilisateur,
       mail_utilisateur: utilisateur.mail_utilisateur,
     };
+    const isAdmin = utilisateur.isAdmin
+    if(!isAdmin)    {
+      // Générer le token JWT avec une expiration de 1 heure
+      const token = jwt.sign(payload, process.env.JWT_SECRET_USER, { expiresIn: '1h' });
+      return res.status(200).json({ message: 'Connexion réussie', token,isAdmin, first_connexion });
+    }
+    else
+    {
+      const token = jwt.sign(payload, process.env.JWT_SECRET_ADMIN, { expiresIn: '1h' });
 
-    // Générer le token JWT avec une expiration de 1 heure
-    const token = jwt.sign(payload, process.env.JWT_SECRET_USER, { expiresIn: '1h' });
-
-    return res.status(200).json({ message: 'Connexion réussie', token, first_connexion });
+      return res.status(200).json({ message: 'Connexion réussie', token,isAdmin,first_connexion });
+    }
   } catch (err) {
     console.error("Erreur interne :", err.message);
     return res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur' });

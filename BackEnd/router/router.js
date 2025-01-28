@@ -11,7 +11,7 @@ module.exports = function(app) {
     // se connecter
     //GESTION DES MURS
     app.get('/mur/:id_mur',                                                                     ControllerMur.recupererMur)
-   // app.post('/addmur',                                         jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerMur.ajouterMur); 
+    //app.post('/addmur',                                         jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerMur.ajouterMur); 
     //GESTION DES UTILISATEURS
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
     app.post('/loginUser',                                      verif.login,                    ControllerUtilisateur.loginUser)

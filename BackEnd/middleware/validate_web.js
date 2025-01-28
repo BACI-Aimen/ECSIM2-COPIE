@@ -5,7 +5,7 @@ exports.login = [
   check('mot_de_passe', 'Le mot de passe doit comporter au minimum 8 caractères, 1 chiffre et 1 caractère spécial')
     .isLength({ min: 8 })
     .matches(/\d/)
-    .matches(/[!@#$%^&*(),.?":{}|<>]/),
+    .matches(/[!@#$%=^&*(),.?":{}|<>]/),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {

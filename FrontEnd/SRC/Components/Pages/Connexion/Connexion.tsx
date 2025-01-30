@@ -4,6 +4,7 @@ import { Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import UtilisateurService from "../../../Services/UtilisateurService";
 import FetchClient from '../../../ServiceClients/FectchClient'; 
+import * as SecureStore from 'expo-secure-store';
 
 const ConnexionMain = () => {
   const [login, setLogin] = useState("");
@@ -25,9 +26,12 @@ const ConnexionMain = () => {
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
-      navigation.navigate("Home")
+      if(retour.message) {
+        await SecureStore.setItemAsync('token', retour.token)
+        navigation.navigate("Home")
+      }
     } catch (error: any) {
-      alert(error)
+      alert(error.message)
     }
   };
 

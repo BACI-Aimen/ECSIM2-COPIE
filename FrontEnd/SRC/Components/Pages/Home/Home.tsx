@@ -16,14 +16,19 @@ const HomeMain = () => {
           };
       
           //Appel de la fonction pour récuperer les pas, mais ça va être chiant à faire, j'ai mis une version de merde dans les fichiers
-          //fetchSteps();
+          fetchSteps();
     }, [])
+
+    const handleAjoutPas = async () => {
+      await HealthData.addSteps();
+    }
     
     return(
         <SafeAreaView style={styles.centeredView}>
             <Text>Vous êtes sur la page Home</Text>
             <Text>{JSON.stringify(steps)}</Text>
             <Button onPress={() => {setModalVisible(true)}} title="Supprimer"/>
+            <Button onPress={handleAjoutPas} title="Ajouter des pas"/>
             <PopupSuppression getModal={modalVisible} setModal={setModalVisible}/>
         </SafeAreaView>
     )

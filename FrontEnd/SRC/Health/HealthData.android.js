@@ -1,46 +1,51 @@
-import GoogleFit, { Scopes } from 'react-native-google-fit';
-
-const options = {
-  scopes: [
-    Scopes.FITNESS_ACTIVITY_READ,
-    Scopes.FITNESS_ACTIVITY_WRITE,
-  ],
-};
+import {
+  initialize,
+  requestPermission,
+  readRecords,  
+  insertRecords
+} from 'react-native-health-connect';
 
 const HealthData = {
-  async initialize() {
+  async addSteps(){
     try {
-      const authResult = await GoogleFit.authorize(options);
-      if (authResult.success) {
-        console.log('Authorization successful');
-        return true;
-      } else {
-        console.error('Authorization failed:', authResult.message);
-        return false;
-      }
+      const result = await insertRecords([
+        {
+          recordType: 'Steps',
+          count: 5000,
+          startTime: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
+          endTime: new Date().toISOString(),
+        },
+      ]);
+  
+      console.log('Steps inserted:', result);
     } catch (error) {
-      console.error('Authorization error:', error);
-      return false;
+      console.error('Error inserting steps:', error);
     }
   },
-
   async getSteps() {
-    const initSuccess = await this.initialize();
-    if (!initSuccess) return [];
 
-    const stepOptions = {
-      startDate: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString(), // Last 7 days
-      endDate: new Date().toISOString(),
-    };
+    const now = new Date();
+    const startOfDay = new Date(now);
+    startOfDay.setHours(0, 0, 0, 0); // Début du jour
+    const endOfDay = new Date(now); // Maintenant
 
-    try {
-      const stepData = await GoogleFit.getDailyStepCountSamples(stepOptions);
-      console.log('Steps data:', stepData);
-      return stepData;
-    } catch (error) {
-      console.error('Error fetching steps data:', error);
-      return [];
-    }
+    const isInitialized = await initialize();
+
+    const grantedPermissions = await requestPermission([
+      { accessType: 'read', recordType: 'Steps' },
+      { accessType: 'write', recordType: 'Steps'}
+    ]);
+  
+    const { records } = await readRecords('Steps', {
+      timeRangeFilter: {
+        operator: 'between',
+        startTime: startOfDay.toISOString(),
+        endTime: endOfDay.toISOString(),
+      },
+    })
+    const totalSteps = records.reduce((sum, record) => sum + record.count, 0);
+    return totalSteps
+
   },
 };
 

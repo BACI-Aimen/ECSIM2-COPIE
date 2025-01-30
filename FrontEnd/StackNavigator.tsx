@@ -9,8 +9,9 @@ const StackNavigator = () => {
     return(
         <Stack.Navigator screenOptions={{ headerShown: false}}>
             <Stack.Group>
-                <Stack.Screen name="Connexion" component={ConnexionMain}/>
                 <Stack.Screen name="Home" component={HomeMain}/>
+                <Stack.Screen name="Connexion" component={ConnexionMain}/>
+                
             </Stack.Group>
         </Stack.Navigator>
     )

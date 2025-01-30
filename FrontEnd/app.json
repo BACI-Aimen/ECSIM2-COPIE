@@ -19,7 +19,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.segios.Mobile",
+      "permissions": [
+        "android.permission.health.READ_STEPS",
+        "android.permission.health.WRITE_STEPS"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"

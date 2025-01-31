@@ -1,8 +1,6 @@
 require('dotenv').config();
 const ModelPodometre = require('../Model/ModelPodometre');
-// const bcrypt = require('bcrypt');
-// const transporter = require('../helper/emailConfig');
-// const jwt = require('jsonwebtoken');
+
 
 exports.ajouterPodometre = async (req, res) => {
   try {

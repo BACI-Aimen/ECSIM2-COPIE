@@ -6,8 +6,9 @@ exports.getClassementUtilisateurActuel = async (req, res) => {
     // Récupération de la date actuelle
     const currentDate = new Date();
     const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1); // Premier jour du mois
-    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0); // Dernier jour du mois
-
+    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 1); // Dernier jour du mois
+    console.log(endOfMonth);
+    
     // Récupération du classement depuis le modèle
     const classement = await ModelPodometre.getClassementMoisEnCours(startOfMonth, endOfMonth);
 
@@ -32,7 +33,7 @@ exports.getClassementUtilisateurHistorique = async (req, res) => {
     }
 
     const startOfMonth = new Date(annee, mois - 1, 1); // Premier jour du mois spécifié
-    const endOfMonth = new Date(annee, mois, 0); // Dernier jour du mois spécifié
+    const endOfMonth = new Date(annee, mois, 1); // Dernier jour du mois spécifié
 
     // Récupération du classement depuis le modèle
     const classement = await ModelPodometre.getClassementMoisEnCours(startOfMonth, endOfMonth);

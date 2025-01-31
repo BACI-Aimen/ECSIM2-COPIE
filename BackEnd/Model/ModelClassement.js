@@ -1,23 +1,5 @@
 const supabase = require('../server').supabase;
-//Imo uselesse je vériferais plus tard
-// exports.loginUser = async (login,password) => {
-//   try {
 
-//   } catch (err) {
-//     console.error("Erreur lors de la connexion:", err.message);  // Affichage de l'erreur dans la console
-//     throw new Error(err.message);  
-//   }
-// };
-
-
-// exports.loginAdmin = async (login,password) => {
-//   try {
-
-//   } catch (err) {
-//     console.error("Erreur lors de la connexion:", err.message);  // Affichage de l'erreur dans la console
-//     throw new Error(err.message);  
-//   }
-// };
 exports.creerUtilisateur = async ({mail_utilisateur,mdp_utilisateur, id_entité,role }) => {
   try {
     console.log('model',mdp_utilisateur);

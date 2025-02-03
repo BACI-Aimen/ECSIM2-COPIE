@@ -1,4 +1,3 @@
-// src/Components/Pages/Home/Home.tsx
 import React, { useEffect, useState } from 'react';
 import { Text, Button } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -7,6 +6,8 @@ import HealthData from '../../../Health/HealthData';
 import styles from './Home.styles';
 import MainLayout from '../../Reusable/Layout/MainLayout';
 import SearchBar from '../../Reusable/SearchBar/SearchBar';
+import StepCounter from '../../Reusable/CircularCounter/CircularCounter';
+import CircularCounter from '../../Reusable/CircularCounter/CircularCounter';
 
 interface HomeMainProps {
   navigation: any;
@@ -38,6 +39,7 @@ const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
     <MainLayout streak={streak} navigation={navigation}>
       <SafeAreaView style={styles.container}>
         <SearchBar onSearch={handleSearch} />
+        <CircularCounter value={steps} />
         <Text>Vous êtes sur la page Home</Text>
         <Text>{JSON.stringify(steps)}</Text>
         <Button onPress={() => setModalVisible(true)} title="Supprimer" />

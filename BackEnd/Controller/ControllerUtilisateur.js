@@ -234,3 +234,28 @@ exports.getCompteUtilisateurById = async (req, res) => {
       return res.status(500).json({ error: err.message, message: "Utilisateur non trouvé" });
   }
 };
+
+exports.getMonCompteUtilisateurById = async (req, res) => {
+  const id_utilisateur = req.user.id_utilisateur;
+
+  try {
+      const user = await ModelUtilisateur.getMonCompteUtilisateurById(id_utilisateur);
+
+      if (!user) {
+          return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      // Transformer la réponse avant de l'envoyer
+      // const formattedUser = {
+      //     pseudo_utilisateur: user.pseudo_utilisateur,
+      //     mail_utilisateur: user.mail_utilisateur,
+      //     role: user.isAdmin ? "Administrateur" : "Utilisateur", // Conversion du rôle
+      //     libellé_entité: user.id_entité?.libellé_entité || null // Extraire directement le libellé
+      // };
+
+      //return res.status(200).json(formattedUser);
+      return res.status(200).json(user);
+  } catch (err) {
+      return res.status(500).json({ error: err.message, message: "Utilisateur non trouvé" });
+  }
+};

@@ -89,3 +89,71 @@ exports.getCompteUtilisateurById = async (id_utilisateur) => {
     throw new Error(err.message);
   }
 };
+
+// Fonction pour récupérer un utilisateur par son ID
+// exports.getMonCompteUtilisateurById = async (id_utilisateur) => {
+//   try {
+//     if (!id_utilisateur) {
+//       throw new Error("L'ID utilisateur est requis");
+//     }
+
+//     // Récupération de l'utilisateur depuis la table "utilisateur"
+//     const { data, error } = await supabase
+//       .from('utilisateur')
+//       //.select('pseudo_utilisateur, id_entité(libellé_entité), id_entité(id_entité_1(libellé_entité)), id_mur(photo_mur)')
+//       //.select('pseudo_utilisateur, id_entité(libellé_entité), id_entité(id_entité_1(libellé_entité)), id_mur(photo_mur)')
+//       .select('pseudo_utilisateur, id_entité(libellé_entité, id_entité_1(libellé_entité)), id_mur(photo_mur)')
+//       .eq('id_utilisateur', id_utilisateur)
+//       .single(); // On veut un seul utilisateur
+
+//     if (error) throw error;
+
+//     return data; // Retourne l'utilisateur trouvé
+//   } catch (err) {
+//     console.error("Erreur lors de la récupération de l'utilisateur :", err.message);
+//     throw new Error(err.message);
+//   }
+// };
+
+exports.getMonCompteUtilisateurById = async (id_utilisateur) => {
+  try {
+    if (!id_utilisateur) {
+      throw new Error("L'ID utilisateur est requis");
+    }
+
+    // Première requête pour récupérer l'utilisateur et ses relations directes
+    const { data: utilisateur, error: errorUtilisateur } = await supabase
+      .from('utilisateur')
+      .select('pseudo_utilisateur, id_entité(id_entité_1, libellé_entité), id_mur(photo_mur)')
+      .eq('id_utilisateur', id_utilisateur)
+      .single(); // Un seul utilisateur
+
+    if (errorUtilisateur) throw errorUtilisateur;
+    if (!utilisateur) return null;
+
+    // Vérifier si id_entité existe et récupérer id_entité_1
+    let libelle_entite_1 = null;
+    if (utilisateur.id_entité) {
+      const { data: entite, error: errorEntite } = await supabase
+        .from('entité')
+        .select('libellé_entité')
+        .eq('id_entité', utilisateur.id_entité.id_entité_1) // Récupérer l'entité parent
+        .single();
+
+      if (errorEntite) throw errorEntite;
+      libelle_entite_1 = entite?.libellé_entité || null;
+    }
+    else (console.log("id est vide"))
+
+    // Construire l'objet final
+    return {
+      pseudo_utilisateur: utilisateur.pseudo_utilisateur,
+      libellé_entité: utilisateur.id_entité?.libellé_entité || null,
+      libellé_entité_1: libelle_entite_1, // Ajout de l'entité parent
+      photo_mur: utilisateur.id_mur?.photo_mur || null
+    };
+  } catch (err) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", err.message);
+    throw new Error(err.message);
+  }
+};

@@ -204,3 +204,30 @@ exports.getAllUtilisateurs = async () => {
     throw new Error(err.message);
   }
 };
+
+exports.getIdMurByUserId = async (id_utilisateur) => {
+  try {
+    if (!id_utilisateur) {
+      throw new Error("L'ID utilisateur est requis");
+    }
+
+    // Requête pour récupérer l'ID du mur associé à l'ID utilisateur
+    const { data, error } = await supabase
+      .from('utilisateur') // Table utilisateur
+      .select('id_mur') // Sélectionner uniquement l'id_mur
+      .eq('id_utilisateur', id_utilisateur) // Filtrer par ID utilisateur
+      .single(); // On s'attend à un seul résultat
+
+    if (error) throw error;
+
+    // Vérifier si un mur a été trouvé
+    if (!data || !data.id_mur) {
+      throw new Error("Aucun mur associé à cet utilisateur");
+    }
+
+    return data.id_mur; // Retourner l'ID du mur
+  } catch (err) {
+    console.error("Erreur lors de la récupération de l'ID du mur :", err.message);
+    throw new Error(err.message);
+  }
+};

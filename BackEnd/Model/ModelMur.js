@@ -39,3 +39,25 @@ exports.recupererMur = async (id_mur) => {
   }
 };
 
+exports.SupprimerMurById = async (id_mur) => {
+  try {
+    if (!id_mur) {
+      throw new Error("L'ID du mur est requis");
+    }
+
+    // Requête pour supprimer le mur par son ID
+    const { data, error } = await supabase
+      .from('mur') // Assure-toi que c'est bien le nom de ta table
+      .delete()
+      .eq('id_mur', id_mur); // Condition de suppression basée sur l'ID
+
+    if (error) throw error;
+
+    return { message: "Mur supprimé avec succès" };
+  } catch (err) {
+    console.error("Erreur lors de la suppression du mur :", err.message);
+    throw new Error(err.message);
+  }
+};
+
+

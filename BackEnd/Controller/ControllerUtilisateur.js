@@ -294,3 +294,17 @@ exports.getAllUtilisateurs = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+
+exports.SupprimerUtilisateur = async (req, res) => {
+  const { id_utilisateur } = req.params;  // L'ID du mur à supprimer vient des paramètres de l'URL
+
+  const id_mur = await ModelUtilisateur.getIdMurByUserId(id_utilisateur);
+  try {
+    // Appel du modèle pour supprimer le mur
+    const result = await ModelMur.SupprimerMurById(id_mur);
+
+    return res.status(200).json(result); // Réponse avec message de succès
+  } catch (err) {
+    return res.status(500).json({ error: err.message }); // En cas d'erreur
+  }
+};

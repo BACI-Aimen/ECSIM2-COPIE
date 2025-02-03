@@ -210,3 +210,27 @@ exports.finaliserInscription = async (req, res) => {
     return res.status(500).json({ error: 'Erreur lors de l\'inscription' });
 }
 };
+
+exports.getCompteUtilisateurById = async (req, res) => {
+  const { id_utilisateur } = req.params;
+
+  try {
+      const user = await ModelUtilisateur.getCompteUtilisateurById(id_utilisateur);
+
+      if (!user) {
+          return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      // Transformer la réponse avant de l'envoyer
+      const formattedUser = {
+          pseudo_utilisateur: user.pseudo_utilisateur,
+          mail_utilisateur: user.mail_utilisateur,
+          role: user.isAdmin ? "Administrateur" : "Utilisateur", // Conversion du rôle
+          libellé_entité: user.id_entité?.libellé_entité || null // Extraire directement le libellé
+      };
+
+      return res.status(200).json(formattedUser);
+  } catch (err) {
+      return res.status(500).json({ error: err.message });
+  }
+};

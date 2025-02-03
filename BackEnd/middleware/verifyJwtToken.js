@@ -23,7 +23,6 @@ exports.verifyTokenAdmin = (req, res, next) => {
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET_ADMIN);
     req.user = decoded; //id de l'utilisateur
-    console.log(req.user);
     
     next();
   } catch (err) {

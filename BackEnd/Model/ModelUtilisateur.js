@@ -66,3 +66,26 @@ exports.updateUtilisateurInscription = async (id_utilisateur, pseudo_utilisateur
     throw err;
   }
 };
+
+// Fonction pour récupérer un utilisateur par son ID
+exports.getCompteUtilisateurById = async (id_utilisateur) => {
+  try {
+    if (!id_utilisateur) {
+      throw new Error("L'ID utilisateur est requis");
+    }
+
+    // Récupération de l'utilisateur depuis la table "utilisateur"
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .select('pseudo_utilisateur, mail_utilisateur, id_entité(libellé_entité), isAdmin')
+      .eq('id_utilisateur', id_utilisateur)
+      .single(); // On veut un seul utilisateur
+
+    if (error) throw error;
+
+    return data; // Retourne l'utilisateur trouvé
+  } catch (err) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", err.message);
+    throw new Error(err.message);
+  }
+};

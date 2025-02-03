@@ -121,30 +121,6 @@ exports.getCompteUtilisateurById = async (id_utilisateur) => {
   }
 };
 
-// Fonction pour récupérer un utilisateur par son ID
-// exports.getMonCompteUtilisateurById = async (id_utilisateur) => {
-//   try {
-//     if (!id_utilisateur) {
-//       throw new Error("L'ID utilisateur est requis");
-//     }
-
-//     // Récupération de l'utilisateur depuis la table "utilisateur"
-//     const { data, error } = await supabase
-//       .from('utilisateur')
-//       //.select('pseudo_utilisateur, id_entité(libellé_entité), id_entité(id_entité_1(libellé_entité)), id_mur(photo_mur)')
-//       //.select('pseudo_utilisateur, id_entité(libellé_entité), id_entité(id_entité_1(libellé_entité)), id_mur(photo_mur)')
-//       .select('pseudo_utilisateur, id_entité(libellé_entité, id_entité_1(libellé_entité)), id_mur(photo_mur)')
-//       .eq('id_utilisateur', id_utilisateur)
-//       .single(); // On veut un seul utilisateur
-
-//     if (error) throw error;
-
-//     return data; // Retourne l'utilisateur trouvé
-//   } catch (err) {
-//     console.error("Erreur lors de la récupération de l'utilisateur :", err.message);
-//     throw new Error(err.message);
-//   }
-// };
 
 exports.getMonCompteUtilisateurById = async (id_utilisateur) => {
   try {
@@ -227,6 +203,25 @@ exports.getIdMurByUserId = async (id_utilisateur) => {
 
     return data.id_mur; // Retourner l'ID du mur
   } catch (err) {
+    console.error("Erreur lors de la récupération de l'ID du mur :", err.message);
+    throw new Error(err.message);
+  }
+};
+exports.getEntiteEtEntiteMereById = async (id_utilisateur) => {
+  try {
+    if (!id_utilisateur) {
+      throw new Error("L'ID utilisateur est requis");
+    }
+
+    const { data, error } = await supabase
+    .from('utilisateur')
+    .select('id_entité(id_entité,id_entité_1)')
+    .eq('id_utilisateur', id_utilisateur)
+    .single(); // Récupérer un seul utilisateur
+
+  if (error) throw error;
+  return data;
+} catch (err) {
     console.error("Erreur lors de la récupération de l'ID du mur :", err.message);
     throw new Error(err.message);
   }

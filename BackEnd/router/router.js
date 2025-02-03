@@ -9,13 +9,13 @@ module.exports = function(app) {
     const verif = require('../middleware/validate_web');
 
     // se connecter
+    app.post('/login',                                          verif.login,                    ControllerUtilisateur.login)
     //GESTION DES MURS
     app.get('/mur/:id_mur',                                                                     ControllerMur.recupererMur)
     app.delete('/Supprimer_Utilisateur/:id_utilisateur',         jwt.verifyTokenAdmin,          ControllerUtilisateur.SupprimerUtilisateur);
     //app.post('/addmur',                                         jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerMur.ajouterMur); 
     //GESTION DES UTILISATEURS
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
-    app.post('/login',                                          verif.login,                    ControllerUtilisateur.login)
     app.post('/finaliserInscription',                           jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerUtilisateur.finaliserInscription); 
     app.put('/updateUser',                                      jwt.verifyTokenAdmin,           ControllerUtilisateur.updateCompte)
     app.get('/compteUtilisateur/:id_utilisateur',               jwt.verifyTokenAdmin,           ControllerUtilisateur.getCompteUtilisateurById)
@@ -30,6 +30,9 @@ module.exports = function(app) {
     app.get('/classementEntiteHistorique/:mois/:annee',         jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteHistorique)
     app.get('/classementEntiteMereHistorique/:mois/:annee',     jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteMereHistorique)
     app.get('/classementEntiteMereActuel',                      jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteMereActuel)
+    app.get('/MonclassementEntiteMereActuel',                   jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteMereActuel)
+    app.get('/MonclassementEntiteMereHistorique/:mois/:annee',  jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteMereHistorique)
+
 
 
 }

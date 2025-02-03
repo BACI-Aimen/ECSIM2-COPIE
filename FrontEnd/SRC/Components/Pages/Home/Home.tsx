@@ -1,45 +1,46 @@
-import React, { useEffect, useState } from "react"
-import { StyleSheet, Button, Text, View } from 'react-native';
-import { SafeAreaView } from "react-native-safe-area-context";
-import PopupSuppression from "../../Reusable/PopupSuppression/PopupSuppression";
-import HealthData from "../../../Health/HealthData";
+// src/Components/Pages/Home/Home.tsx
+import React, { useEffect, useState } from 'react';
+import { Text, Button } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import PopupSuppression from '../../Reusable/PopupSuppression/PopupSuppression';
+import HealthData from '../../../Health/HealthData';
+import styles from './Home.styles';
+import MainLayout from '../../Reusable/Layout/MainLayout';
 
-const HomeMain = () => {
-
-    const [modalVisible, setModalVisible] = useState(false);
-    const [steps, setSteps] = useState([]);
-
-    useEffect(() => {
-        const fetchSteps = async () => {
-            const data = await HealthData.getSteps();
-            setSteps(data);
-          };
-      
-          //Appel de la fonction pour récuperer les pas, mais ça va être chiant à faire, j'ai mis une version de merde dans les fichiers
-          fetchSteps();
-    }, [])
-
-    const handleAjoutPas = async () => {
-      await HealthData.addSteps();
-    }
-    
-    return(
-        <SafeAreaView style={styles.centeredView}>
-            <Text>Vous êtes sur la page Home</Text>
-            <Text>{JSON.stringify(steps)}</Text>
-            <Button onPress={() => {setModalVisible(true)}} title="Supprimer"/>
-            <Button onPress={handleAjoutPas} title="Ajouter des pas"/>
-            <PopupSuppression getModal={modalVisible} setModal={setModalVisible}/>
-        </SafeAreaView>
-    )
+interface HomeMainProps {
+  navigation: any;
 }
 
-const styles = StyleSheet.create({
-    centeredView: {
-      flex: 1,
-      justifyContent: 'center',
-      alignItems: 'center',
-    }
-  });
+const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
+  const [modalVisible, setModalVisible] = useState(false);
+  const [steps, setSteps] = useState([]);
+  
+  useEffect(() => {
+    const fetchSteps = async () => {
+      const data = await HealthData.getSteps();
+      setSteps(data);
+    };
+    fetchSteps();
+  }, []);
+  
+  const handleAjoutPas = async () => {
+    await HealthData.addSteps();
+  };
 
-export default HomeMain
+
+  const streak = 5;
+  
+  return (
+    <MainLayout streak={streak} navigation={navigation}>
+      <SafeAreaView style={styles.container}>
+        <Text>Vous êtes sur la page Home</Text>
+        <Text>{JSON.stringify(steps)}</Text>
+        <Button onPress={() => setModalVisible(true)} title="Supprimer" />
+        <Button onPress={handleAjoutPas} title="Ajouter des pas" />
+        <PopupSuppression getModal={modalVisible} setModal={setModalVisible} />
+      </SafeAreaView>
+    </MainLayout>
+  );
+};
+
+export default HomeMain;

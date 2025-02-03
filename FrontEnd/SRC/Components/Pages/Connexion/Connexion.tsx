@@ -31,7 +31,7 @@ const ConnexionMain = () => {
         navigation.navigate("Home")
       }
     } catch (error: any) {
-      alert(error.message)
+      //alert(error)
     }
   };
 

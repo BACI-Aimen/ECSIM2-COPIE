@@ -32,6 +32,8 @@ module.exports = function(app) {
     app.get('/classementEntiteMereActuel',                      jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteMereActuel)
     app.get('/MonclassementEntiteMereActuel',                   jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteMereActuel)
     app.get('/MonclassementEntiteMereHistorique/:mois/:annee',  jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteMereHistorique)
+    app.get('/MonclassementEntiteFilleActuel',                  jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteFilleActuel)
+    app.get('/MonclassementEntiteFilleHistorique/:mois/:annee', jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteFilleHistorique)
 
 
 

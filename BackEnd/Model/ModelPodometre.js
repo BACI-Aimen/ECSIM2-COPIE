@@ -122,7 +122,6 @@ exports.getClassementMoisEnCoursEntiteMere = async (startOfMonth, endOfMonth) =>
 };
 exports.getMonClassementEntiteMere = async (startOfMonth, endOfMonth,entite_mere) => {
   try {
-    console.log(entite_mere);
     
     const { data, error } = await supabase
       .from('podomètre_journalier')
@@ -146,21 +145,20 @@ exports.getMonClassementEntiteMere = async (startOfMonth, endOfMonth,entite_mere
 };
 exports.getMonClassementEntiteFille = async (startOfMonth, endOfMonth,entite_fille) => {
   try {
-    console.log(entite_mere);
     
     const { data, error } = await supabase
       .from('podomètre_journalier')
-      .select('id_utilisateur,utilisateur(pseudo_utilisateur,id_entité(id_entité_1(libellé_entité)),isAdmin), totalpas:nombrepas_podometre.sum()')
+      .select('id_utilisateur,utilisateur(pseudo_utilisateur,id_entité(libellé_entité),isAdmin), totalpas:nombrepas_podometre.sum()')
       .gte('created_at_podometre', startOfMonth.toISOString())
       .lte('created_at_podometre', endOfMonth.toISOString())
-      .eq('utilisateur.id_entité', entite_fille)
+      .eq('utilisateur.id_entité.id_entité', entite_fille)
         
     if (error) {
       console.error('Erreur lors de l\'agrégation :', error.message);
       throw error;
     } else {
       const classementTrie = data.filter(item => item.utilisateur.id_entité !== null);
-      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);    
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);     
       return classementTrie2;
     }
   } catch (err) {

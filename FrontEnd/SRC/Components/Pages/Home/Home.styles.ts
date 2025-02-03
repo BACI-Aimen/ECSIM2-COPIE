@@ -1,12 +1,11 @@
-// src/Components/Pages/Home/Home.styles.ts
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 16,
+    justifyContent: 'flex-start',  
+    alignItems: 'center',          
+    paddingTop: 10,
     backgroundColor: '#fff',
   },
 });

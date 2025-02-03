@@ -11,7 +11,7 @@ const HealthData = {
       const result = await insertRecords([
         {
           recordType: 'Steps',
-          count: 5000,
+          count: 200,
           startTime: new Date(new Date().setHours(0, 0, 0, 0)).toISOString(),
           endTime: new Date().toISOString(),
         },

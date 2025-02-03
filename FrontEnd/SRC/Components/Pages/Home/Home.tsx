@@ -6,6 +6,7 @@ import PopupSuppression from '../../Reusable/PopupSuppression/PopupSuppression';
 import HealthData from '../../../Health/HealthData';
 import styles from './Home.styles';
 import MainLayout from '../../Reusable/Layout/MainLayout';
+import SearchBar from '../../Reusable/SearchBar/SearchBar';
 
 interface HomeMainProps {
   navigation: any;
@@ -27,12 +28,16 @@ const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
     await HealthData.addSteps();
   };
 
+  const handleSearch = (text: string) => {
+    //console.log('Recherche de mur :', text);
+  };
 
   const streak = 5;
   
   return (
     <MainLayout streak={streak} navigation={navigation}>
       <SafeAreaView style={styles.container}>
+        <SearchBar onSearch={handleSearch} />
         <Text>Vous êtes sur la page Home</Text>
         <Text>{JSON.stringify(steps)}</Text>
         <Button onPress={() => setModalVisible(true)} title="Supprimer" />

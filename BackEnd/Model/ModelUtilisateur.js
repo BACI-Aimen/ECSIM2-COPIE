@@ -67,6 +67,37 @@ exports.updateUtilisateurInscription = async (id_utilisateur, pseudo_utilisateur
   }
 };
 
+exports.updateCompte = async ({updateFields,id_utilisateur }) => {
+  try {
+     // Vérifier si l'utilisateur existe
+     const { data: existingUser, error: findError } = await supabase
+     .from('utilisateur')
+     .select('id_utilisateur')
+     .eq('id_utilisateur', id_utilisateur)
+     .single();
+
+   if (findError || !existingUser) {
+     throw new Error("Utilisateur non trouvé.");
+   }
+    // Mise à jour dans Supabase
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .update(updateFields)
+      .eq('id_utilisateur', id_utilisateur)
+      .select();
+
+    if (error) {
+      throw new Error(error.message);
+    }
+
+    return data;
+  } catch (err) {
+    console.error('Erreur lors de la mise à jour du compte:', err.message);
+    throw err;
+  }
+};
+
+
 // Fonction pour récupérer un utilisateur par son ID
 exports.getCompteUtilisateurById = async (id_utilisateur) => {
   try {

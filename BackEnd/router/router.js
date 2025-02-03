@@ -16,6 +16,7 @@ module.exports = function(app) {
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
     app.post('/login',                                          verif.login,                    ControllerUtilisateur.login)
     app.post('/finaliserInscription',                           jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerUtilisateur.finaliserInscription); 
+    app.put('/updateUser',                                      jwt.verifyTokenAdmin,           ControllerUtilisateur.updateCompte)
     app.get('/compteUtilisateur/:id_utilisateur',               jwt.verifyTokenAdmin,           ControllerUtilisateur.getCompteUtilisateurById)
     app.get('/monCompteUtilisateur',                            jwt.verifyTokenUser,            ControllerUtilisateur.getMonCompteUtilisateurById)
     app.get('/getAllUtilisateurs',                              jwt.verifyTokenAdmin,           ControllerUtilisateur.getAllUtilisateurs)
@@ -24,7 +25,8 @@ module.exports = function(app) {
     //CLASSEMENT
     app.get('/classementUtilisateurActuel',                     jwt.verifyTokenUser,            ConrollerClassement.getClassementUtilisateurActuel)
     app.get('/classementUtilisateurHistorique/:mois/:annee',    jwt.verifyTokenUser,            ConrollerClassement.getClassementUtilisateurHistorique)
-    
+    app.get('/classementEntiteActuel',                          jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteActuel)
+    app.get('/classementEntiteHistorique/:mois/:annee',         jwt.verifyTokenUser,            ConrollerClassement.getClassementEntiteHistorique)
 
 }
 

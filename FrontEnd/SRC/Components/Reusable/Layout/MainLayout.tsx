@@ -6,8 +6,8 @@ import DrawerNav from '../DrawerNav/DrawerNav';
 
 type MainLayoutProps = {
   children: React.ReactNode;
-  streak: number;       // Le nombre de jours consécutifs où l'utilisateur a fait >3000 pas
-  navigation: any;      // Prop de navigation (à typer selon votre config)
+  streak: number;       
+  navigation: any;      
 };
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, streak, navigation }) => {

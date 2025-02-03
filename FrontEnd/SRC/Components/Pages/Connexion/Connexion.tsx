@@ -27,14 +27,17 @@ const ConnexionMain = () => {
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
-      console.log(retour)
       if(retour.message) {
         await SecureStore.setItemAsync('token', retour.token)
-        navigation.navigate("Home")
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        });
+        
       }
     } catch (error: any) {
       //alert(error)
-      console.log(error)
+      //console.log(error)
     }
   };
 

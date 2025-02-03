@@ -1,4 +1,3 @@
-// src/Components/Layout/MainLayout.styles.ts
 import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -7,12 +6,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
   },
   header: {
-    height: 60,
+    height: 70,
+    paddingTop: 10,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // hamburger à gauche, streak à droite
+    justifyContent: 'space-between', 
     paddingHorizontal: 10,
-    backgroundColor: '#fff', // fond neutre
+    backgroundColor: '#fff', 
     borderBottomWidth: 1,
     borderBottomColor: '#ddd',
   },
@@ -27,14 +27,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#000',
   },
-  // Zone pour le contenu principal (par exemple, barre de recherche, compteur, etc.)
   body: {
     flex: 1,
   },
-  // Style du menu (drawer)
   drawer: {
     position: 'absolute',
-    top: 60, // directement sous le header
+    top: 70, 
     left: 0,
     bottom: 0,
     width: 250,

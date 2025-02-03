@@ -1,4 +1,3 @@
-// src/Components/CircularCounter/CircularCounter.tsx
 import React from 'react';
 import { View, Text } from 'react-native';
 import Svg, { Path, Line, G, Text as SvgText } from 'react-native-svg';

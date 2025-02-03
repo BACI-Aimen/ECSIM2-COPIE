@@ -6,8 +6,8 @@ import HealthData from '../../../Health/HealthData';
 import styles from './Home.styles';
 import MainLayout from '../../Reusable/Layout/MainLayout';
 import SearchBar from '../../Reusable/SearchBar/SearchBar';
-import StepCounter from '../../Reusable/CircularCounter/CircularCounter';
 import CircularCounter from '../../Reusable/CircularCounter/CircularCounter';
+import DropDown from '../../Reusable/DropDown/DropDown';
 
 interface HomeMainProps {
   navigation: any;
@@ -16,6 +16,7 @@ interface HomeMainProps {
 const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
   const [modalVisible, setModalVisible] = useState(false);
   const [steps, setSteps] = useState([]);
+  const [selectedClassement, setSelectedClassement] = useState<string>('Membre MC');
   
   useEffect(() => {
     const fetchSteps = async () => {
@@ -40,6 +41,13 @@ const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
       <SafeAreaView style={styles.container}>
         <SearchBar onSearch={handleSearch} />
         <CircularCounter value={steps} />
+        <DropDown 
+          selected={selectedClassement} 
+          onSelect={(option: string) => {
+            setSelectedClassement(option);
+            //maj classement
+          }} 
+        />
         <Text>Vous êtes sur la page Home</Text>
         <Text>{JSON.stringify(steps)}</Text>
         <Button onPress={() => setModalVisible(true)} title="Supprimer" />

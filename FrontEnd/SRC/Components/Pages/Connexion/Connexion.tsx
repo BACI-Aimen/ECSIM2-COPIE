@@ -23,15 +23,18 @@ const ConnexionMain = () => {
   const handleConnexion = async () => {
     const API_Utilisateur = new UtilisateurService(FetchClient);
     try {
+      console.log("aled")
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
+      console.log(retour)
       if(retour.message) {
         await SecureStore.setItemAsync('token', retour.token)
         navigation.navigate("Home")
       }
     } catch (error: any) {
       //alert(error)
+      console.log(error)
     }
   };
 

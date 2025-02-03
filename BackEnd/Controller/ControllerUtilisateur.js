@@ -245,17 +245,22 @@ exports.getMonCompteUtilisateurById = async (req, res) => {
           return res.status(404).json({ error: "Utilisateur non trouvé" });
       }
 
-      // Transformer la réponse avant de l'envoyer
-      // const formattedUser = {
-      //     pseudo_utilisateur: user.pseudo_utilisateur,
-      //     mail_utilisateur: user.mail_utilisateur,
-      //     role: user.isAdmin ? "Administrateur" : "Utilisateur", // Conversion du rôle
-      //     libellé_entité: user.id_entité?.libellé_entité || null // Extraire directement le libellé
-      // };
-
-      //return res.status(200).json(formattedUser);
       return res.status(200).json(user);
   } catch (err) {
       return res.status(500).json({ error: err.message, message: "Utilisateur non trouvé" });
+  }
+};
+
+exports.getAllUtilisateurs = async (req, res) => {
+  try {
+    const utilisateurs = await ModelUtilisateur.getAllUtilisateurs();
+
+    if (!utilisateurs || utilisateurs.length === 0) {
+      return res.status(404).json({ error: "Aucun utilisateur trouvé" });
+    }
+
+    return res.status(200).json(utilisateurs); // Retourne la liste des utilisateurs
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };

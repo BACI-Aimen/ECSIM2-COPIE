@@ -157,3 +157,19 @@ exports.getMonCompteUtilisateurById = async (id_utilisateur) => {
     throw new Error(err.message);
   }
 };
+
+exports.getAllUtilisateurs = async () => {
+  try {
+    // Requête pour récupérer tous les utilisateurs avec le pseudo et l'id
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .select('id_utilisateur, pseudo_utilisateur'); // On récupère uniquement id et pseudo
+
+    if (error) throw error;
+
+    return data; // Retourne la liste des utilisateurs
+  } catch (err) {
+    console.error("Erreur lors de la récupération des utilisateurs :", err.message);
+    throw new Error(err.message);
+  }
+};

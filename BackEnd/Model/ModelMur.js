@@ -59,5 +59,3 @@ exports.SupprimerMurById = async (id_mur) => {
     throw new Error(err.message);
   }
 };
-
-

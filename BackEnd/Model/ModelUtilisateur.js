@@ -226,12 +226,14 @@ exports.getEntiteEtEntiteMereById = async (id_utilisateur) => {
     throw new Error(err.message);
   }
 };
-exports.getAllUtilisateursRecherche = async () => {
+
+exports.getAllmurRecherche = async () => {
   try {
     // Requête pour récupérer tous les utilisateurs avec le pseudo et l'id
     const { data, error } = await supabase
       .from('utilisateur')
-      .select('id_utilisateur, pseudo_utilisateur, id_mur'); // On récupère uniquement id et pseudo
+      .select('id_utilisateur, pseudo_utilisateur, id_mur') // On récupère uniquement id et pseudo
+      .eq('isAdmin', "False");
 
     if (error) throw error;
 

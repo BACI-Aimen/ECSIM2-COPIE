@@ -21,6 +21,7 @@ module.exports = function(app) {
     app.get('/compteUtilisateur/:id_utilisateur',               jwt.verifyTokenAdmin,           ControllerUtilisateur.getCompteUtilisateurById)
     app.get('/monCompteUtilisateur',                            jwt.verifyTokenUser,            ControllerUtilisateur.getMonCompteUtilisateurById)
     app.get('/getAllUtilisateurs',                              jwt.verifyTokenAdmin,           ControllerUtilisateur.getAllUtilisateurs)
+    app.get('/getAllUtilisateursRecherche',                     jwt.verifyTokenUser,            ControllerUtilisateur.getAllUtilisateursRecherche)
     //PODOMETRE
     app.post('/addNbPasJour',                                   jwt.verifyTokenUser,            ControllerPodometre.ajouterPodometre)
     //CLASSEMENT

@@ -9,7 +9,7 @@ const HomeMain = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [steps, setSteps] = useState([]);
-    
+
     const { toggleLoader } = useContext(LoaderContext)
 
     useEffect(() => {
@@ -23,8 +23,11 @@ const HomeMain = () => {
     }, [])
 
     const handleAjoutPas = async () => {
+      await HealthData.addSteps();
+    }
+
+    const toggleLoaderFront = () => {
       toggleLoader()
-      //await HealthData.addSteps();
     }
     
     return(
@@ -33,6 +36,7 @@ const HomeMain = () => {
             <Text>{JSON.stringify(steps)}</Text>
             <Button onPress={() => {setModalVisible(true)}} title="Supprimer"/>
             <Button onPress={handleAjoutPas} title="Ajouter des pas"/>
+            <Button onPress={toggleLoaderFront} title="Toggle le loader"/>
             <PopupSuppression getModal={modalVisible} setModal={setModalVisible}/>
         </SafeAreaView>
     )

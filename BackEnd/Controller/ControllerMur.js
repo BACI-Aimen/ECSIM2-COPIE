@@ -35,9 +35,6 @@ exports.ajouterMur = async (req, res) => {
     }
 };
 
-
-
-
 //Récup un mur
 exports.recupererMur = async (req, res) => {
     try {

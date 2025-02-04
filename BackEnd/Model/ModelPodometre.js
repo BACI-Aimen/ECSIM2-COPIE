@@ -73,3 +73,96 @@ exports.getClassementMoisEnCours = async (startOfMonth, endOfMonth) => {
   }
   
 };
+exports.getClassementMoisEnCoursEntite = async (startOfMonth, endOfMonth) => {
+  try {
+    console.log("test");
+    
+    const { data, error } = await supabase
+      .from('podomètre_journalier')
+      .select('utilisateur(id_entité(libellé_entité)), totalpas:nombrepas_podometre.sum()')
+      .gte('created_at_podometre', startOfMonth.toISOString())
+      .lte('created_at_podometre', endOfMonth.toISOString())
+      .eq('utilisateur.isAdmin', false) // Filtrer les utilisateurs non-admin
+        
+    if (error) {
+      console.error('Erreur lors de l\'agrégation :', error.message);
+      throw error;
+    } else {
+      const classementTrie = data.filter(item => item.utilisateur !== null);
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);      
+      return classementTrie2;
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'exécution de la requête :', err.message);
+  }
+  
+};
+exports.getClassementMoisEnCoursEntiteMere = async (startOfMonth, endOfMonth) => {
+  try {
+    
+    const { data, error } = await supabase
+      .from('podomètre_journalier')
+      .select('utilisateur(id_entité(id_entité_1(libellé_entité))), totalpas:nombrepas_podometre.sum()')
+      .gte('created_at_podometre', startOfMonth.toISOString())
+      .lte('created_at_podometre', endOfMonth.toISOString())
+      .eq('utilisateur.isAdmin', false) // Filtrer les utilisateurs non-admin
+        
+    if (error) {
+      console.error('Erreur lors de l\'agrégation :', error.message);
+      throw error;
+    } else {
+      const classementTrie = data.filter(item => item.utilisateur !== null);
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);      
+      return classementTrie2;
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'exécution de la requête :', err.message);
+  }
+  
+};
+exports.getMonClassementEntiteMere = async (startOfMonth, endOfMonth,entite_mere) => {
+  try {
+    
+    const { data, error } = await supabase
+      .from('podomètre_journalier')
+      .select('id_utilisateur,utilisateur(pseudo_utilisateur,id_entité(id_entité_1(libellé_entité)),isAdmin), totalpas:nombrepas_podometre.sum()')
+      .gte('created_at_podometre', startOfMonth.toISOString())
+      .lte('created_at_podometre', endOfMonth.toISOString())
+      .eq('utilisateur.id_entité.id_entité_1', entite_mere)
+        
+    if (error) {
+      console.error('Erreur lors de l\'agrégation :', error.message);
+      throw error;
+    } else {
+      const classementTrie = data.filter(item => item.utilisateur.id_entité !== null);
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);     
+      return classementTrie2;
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'exécution de la requête :', err.message);
+  }
+  
+};
+exports.getMonClassementEntiteFille = async (startOfMonth, endOfMonth,entite_fille) => {
+  try {
+    
+    const { data, error } = await supabase
+      .from('podomètre_journalier')
+      .select('id_utilisateur,utilisateur(pseudo_utilisateur,id_entité(libellé_entité),isAdmin), totalpas:nombrepas_podometre.sum()')
+      .gte('created_at_podometre', startOfMonth.toISOString())
+      .lte('created_at_podometre', endOfMonth.toISOString())
+      .eq('utilisateur.id_entité.id_entité', entite_fille)
+        
+    if (error) {
+      console.error('Erreur lors de l\'agrégation :', error.message);
+      throw error;
+    } else {
+      const classementTrie = data.filter(item => item.utilisateur.id_entité !== null);
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);     
+      return classementTrie2;
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'exécution de la requête :', err.message);
+  }
+  
+};

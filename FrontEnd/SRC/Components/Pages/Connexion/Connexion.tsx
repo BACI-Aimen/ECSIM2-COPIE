@@ -47,8 +47,10 @@ const ConnexionMain = () => {
         <Text>Login</Text>
         <TextInput
           style={{ width: 200, borderColor: 'gray', borderWidth: 1, marginBottom: 10 }}
+          keyboardType="default"
           onChangeText={setLogin}
           value={login}
+          autoFocus={true} // Assure que le champ est bien focus
         />
         <Text>Mot de passe</Text>
         <TextInput

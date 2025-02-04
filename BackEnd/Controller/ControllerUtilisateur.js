@@ -210,6 +210,36 @@ exports.finaliserInscription = async (req, res) => {
     return res.status(500).json({ error: 'Erreur lors de l\'inscription' });
 }
 };
+exports.updateCompte = async (req, res) => {
+  try {
+    const { id_utilisateur, mail_utilisateur, pseudo_utilisateur, role, id_entite } = req.body;
+    if (!id_utilisateur) {
+      throw new Error("L'ID utilisateur est requis.");
+    }
+    const updateFields = {};
+
+    // Vérifier quels champs doivent être mis à jour
+    if (mail_utilisateur) updateFields.mail_utilisateur = mail_utilisateur;
+    if (pseudo_utilisateur) updateFields.pseudo_utilisateur = pseudo_utilisateur;
+    if (role !== undefined) updateFields.isAdmin = role; 
+    if (id_entite) updateFields.id_entité = id_entite;
+
+    // // Vérifier si au moins un champ est à mettre à jour
+    // if (Object.keys(updateFields).length === 0) {
+    //   throw new Error("Aucune donnée à mettre à jour.");
+    // }
+    const updatedUser = await ModelUtilisateur.updateCompte({
+      updateFields,
+      id_utilisateur
+    });
+
+    return res.status(200).json({ message: "Mise à jour réussie", data: updatedUser });
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du compte:", err.message);
+    return res.status(500).json({ error: err.message });
+  }
+};
+
 
 exports.getCompteUtilisateurById = async (req, res) => {
   const { id_utilisateur } = req.params;
@@ -232,5 +262,63 @@ exports.getCompteUtilisateurById = async (req, res) => {
       return res.status(200).json(formattedUser);
   } catch (err) {
       return res.status(500).json({ error: err.message, message: "Utilisateur non trouvé" });
+  }
+};
+
+exports.getMonCompteUtilisateurById = async (req, res) => {
+  const id_utilisateur = req.user.id_utilisateur;
+
+  try {
+      const user = await ModelUtilisateur.getMonCompteUtilisateurById(id_utilisateur);
+
+      if (!user) {
+          return res.status(404).json({ error: "Utilisateur non trouvé" });
+      }
+
+      return res.status(200).json(user);
+  } catch (err) {
+      return res.status(500).json({ error: err.message, message: "Utilisateur non trouvé" });
+  }
+};
+
+exports.getAllUtilisateurs = async (req, res) => {
+  try {
+    const utilisateurs = await ModelUtilisateur.getAllUtilisateurs();
+
+    if (!utilisateurs || utilisateurs.length === 0) {
+      return res.status(404).json({ error: "Aucun utilisateur trouvé" });
+    }
+
+    return res.status(200).json(utilisateurs); // Retourne la liste des utilisateurs
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.SupprimerUtilisateur = async (req, res) => {
+  const { id_utilisateur } = req.params;  // L'ID du mur à supprimer vient des paramètres de l'URL
+
+  const id_mur = await ModelUtilisateur.getIdMurByUserId(id_utilisateur);
+  try {
+    // Appel du modèle pour supprimer le mur
+    const result = await ModelMur.SupprimerMurById(id_mur);
+
+    return res.status(200).json(result); // Réponse avec message de succès
+  } catch (err) {
+    return res.status(500).json({ error: err.message }); // En cas d'erreur
+  }
+};
+
+exports.getAllUtilisateursRecherche = async (req, res) => {
+  try {
+    const utilisateurs = await ModelUtilisateur.getAllUtilisateursRecherche();
+
+    if (!utilisateurs || utilisateurs.length === 0) {
+      return res.status(404).json({ error: "Aucun utilisateur trouvé" });
+    }
+
+    return res.status(200).json(utilisateurs); // Retourne la liste des utilisateurs
+  } catch (err) {
+    return res.status(500).json({ error: err.message });
   }
 };

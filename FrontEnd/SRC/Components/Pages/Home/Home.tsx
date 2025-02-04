@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react"
+import React, { useContext, useEffect, useState } from "react"
 import { StyleSheet, Button, Text, View } from 'react-native';
 import { SafeAreaView } from "react-native-safe-area-context";
 import PopupSuppression from "../../Reusable/PopupSuppression/PopupSuppression";
 import HealthData from "../../../Health/HealthData";
+import { LoaderContext } from "../../../Context/loaderContext";
 
 const HomeMain = () => {
 
     const [modalVisible, setModalVisible] = useState(false);
     const [steps, setSteps] = useState([]);
+    
+    const { toggleLoader } = useContext(LoaderContext)
 
     useEffect(() => {
         const fetchSteps = async () => {
@@ -20,7 +23,8 @@ const HomeMain = () => {
     }, [])
 
     const handleAjoutPas = async () => {
-      await HealthData.addSteps();
+      toggleLoader()
+      //await HealthData.addSteps();
     }
     
     return(

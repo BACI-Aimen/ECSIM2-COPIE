@@ -1,23 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Text, Button } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { Text, Button, ScrollView, Image } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import PopupSuppression from '../../Reusable/PopupSuppression/PopupSuppression';
-import HealthData from '../../../Health/HealthData';
-import styles from './Home.styles';
 import MainLayout from '../../Reusable/Layout/MainLayout';
 import SearchBar from '../../Reusable/SearchBar/SearchBar';
 import CircularCounter from '../../Reusable/CircularCounter/CircularCounter';
 import DropDown from '../../Reusable/DropDown/DropDown';
+import Classement from '../../Reusable/Classement/Classement';
+import styles from './Home.styles';
+import HealthData from '../../../Health/HealthData';
 
 interface HomeMainProps {
   navigation: any;
 }
 
 const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
-  const [modalVisible, setModalVisible] = useState(false);
-  const [steps, setSteps] = useState([]);
-  const [selectedClassement, setSelectedClassement] = useState<string>('Membre MC');
-  
+  const [selectedClassement, setSelectedClassement] = useState<string>('Classement des membres MC');
+  const [steps, setSteps] = useState<number>(0);
+
   useEffect(() => {
     const fetchSteps = async () => {
       const data = await HealthData.getSteps();
@@ -25,34 +24,35 @@ const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
     };
     fetchSteps();
   }, []);
-  
+
   const handleAjoutPas = async () => {
     await HealthData.addSteps();
   };
 
   const handleSearch = (text: string) => {
-    //console.log('Recherche de mur :', text);
+    console.log('Recherche :', text);
   };
 
   const streak = 5;
-  
+
   return (
     <MainLayout streak={streak} navigation={navigation}>
-      <SafeAreaView style={styles.container}>
-        <SearchBar onSearch={handleSearch} />
-        <CircularCounter value={steps} />
-        <DropDown 
-          selected={selectedClassement} 
-          onSelect={(option: string) => {
-            setSelectedClassement(option);
-            //maj classement
-          }} 
-        />
-        <Text>Vous êtes sur la page Home</Text>
-        <Text>{JSON.stringify(steps)}</Text>
-        <Button onPress={() => setModalVisible(true)} title="Supprimer" />
-        <Button onPress={handleAjoutPas} title="Ajouter des pas" />
-        <PopupSuppression getModal={modalVisible} setModal={setModalVisible} />
+      <SafeAreaView style={{ flex: 1 }}>
+        <ScrollView contentContainerStyle={{ alignItems: 'center', paddingTop: 20, paddingBottom: 20 }}>
+          <SearchBar onSearch={handleSearch} />
+          <CircularCounter value={steps} />
+          <DropDown 
+            selected={selectedClassement} 
+            onSelect={(option: string) => setSelectedClassement(option)} 
+          />
+          <Image
+            source={require('../../../../assets/HeaderClassement.png')}
+            style={styles.classementHeader}
+          />
+          <Classement type={selectedClassement} />
+          <Button onPress={() => {}} title="Supprimer" />
+          <Button onPress={handleAjoutPas} title="Ajouter des pas" />
+        </ScrollView>
       </SafeAreaView>
     </MainLayout>
   );

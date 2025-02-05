@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
     color: '#000',
   },
   streak: {
-    fontSize: 16,
+    fontSize: 25,
     color: '#000',
   },
   body: {
@@ -33,7 +33,7 @@ const styles = StyleSheet.create({
   drawer: {
     position: 'absolute',
     top: 70, 
-    left: 0,
+    //left: 0,
     bottom: 0,
     width: 250,
     backgroundColor: '#fff',
@@ -41,6 +41,20 @@ const styles = StyleSheet.create({
     zIndex: 100,
     borderRightWidth: 1,
     borderRightColor: '#ddd',
+  },
+  icon: {
+    width: 20,
+    height: 30,
+    marginVertical: 0,
+    padding:8,
+  },
+  iconMC: {
+    width: 200,
+    height: 200,
+    left : 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding:8,
   },
 });
 

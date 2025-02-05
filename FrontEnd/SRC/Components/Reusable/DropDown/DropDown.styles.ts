@@ -13,33 +13,60 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: '#ccc',
     borderRadius: 8,
-    backgroundColor: '#fff',
+    backgroundColor: '#2B309B', 
+  },
+
+  closedContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+
+  iconContainer: {
+    width: 35,
+    height: 35,
+    borderRadius: 50,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 10,
+  },
+
+  icon: {
+    width: 18,
+    height: 18,
+    
+  },
+ 
+  closedTextContainer: {
+    flex: 1,
+    alignItems: 'center',
   },
   closedText: {
     fontSize: 16,
-    color: 'blue',
-    textAlign: 'center', // Texte centré
+    color: 'white', 
+    textAlign: 'center',
   },
 
+  
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.3)',
     justifyContent: 'flex-end',
   },
   modalContainer: {
-    width: width, 
+    width: width,
     backgroundColor: '#fff',
     paddingVertical: 20,
     paddingHorizontal: 15,
     borderTopWidth: 4,
-    borderTopColor: 'blue',
+    borderTopColor: '#222679',
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
   },
   modalTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: 'blue',
+    color: '#222679',
     marginBottom: 10,
   },
   closeButton: {
@@ -51,21 +78,21 @@ const styles = StyleSheet.create({
   },
   closeButtonText: {
     fontSize: 20,
-    color: 'blue',
+    color: '#222679',
   },
   option: {
     paddingVertical: 10,
   },
   optionText: {
     fontSize: 16,
-    color: 'blue',
+    color: '#222679',
   },
   optionSelected: {
     color: '#999', 
   },
   bottomLine: {
     height: 2,
-    backgroundColor: 'blue',
+    backgroundColor: '#222679',
     marginTop: 10,
   },
 });

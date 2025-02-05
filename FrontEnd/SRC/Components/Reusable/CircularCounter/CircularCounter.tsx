@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text } from 'react-native';
 import Svg, { Path, Line, G, Text as SvgText } from 'react-native-svg';
 import styles from './CircularCounter.styles';
+import { Image, StyleSheet } from 'react-native';
 
 export type CircularCounterProps = {
   value: number;         // Valeur actuelle (0 à 3000)
@@ -135,8 +136,8 @@ const CircularCounter: React.FC<CircularCounterProps> = ({
         ))}
       </Svg>
       <View style={styles.textContainer}>
-        <Text style={styles.valueText}>{clampedValue}</Text>
-        <Text style={styles.unitText}>pas</Text>
+        <Text style={styles.valueText}>{clampedValue}<Text style={styles.unitText}> pas</Text></Text> 
+        <Image source={require('../../../../../FrontEnd/assets/icone_basket.png')} style={styles.icon} />
       </View>
     </View>
   );

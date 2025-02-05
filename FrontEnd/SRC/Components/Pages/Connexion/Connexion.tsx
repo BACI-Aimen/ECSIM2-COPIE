@@ -23,7 +23,6 @@ const ConnexionMain = () => {
   const handleConnexion = async () => {
     const API_Utilisateur = new UtilisateurService(FetchClient);
     try {
-      console.log("aled")
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
@@ -37,7 +36,7 @@ const ConnexionMain = () => {
       }
     } catch (error: any) {
       //alert(error)
-      //console.log(error)
+      console.log(error)
     }
   };
 

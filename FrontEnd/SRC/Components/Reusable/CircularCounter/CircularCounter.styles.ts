@@ -16,10 +16,16 @@ const styles = StyleSheet.create({
     fontSize: 32,
     fontWeight: 'bold',
     color: '#000',
+    paddingBottom : 25,
   },
   unitText: {
     fontSize: 16,
     color: '#666',
+  },
+  icon: {
+    width: 50,
+    height: 50,
+    
   },
 });
 

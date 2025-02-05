@@ -1,8 +1,8 @@
-// src/Components/Layout/MainLayout.tsx
 import React, { useState } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import styles from './MainLayout.styles';
 import DrawerNav from '../DrawerNav/DrawerNav';
+import { Image, StyleSheet } from 'react-native';
 
 type MainLayoutProps = {
   children: React.ReactNode;
@@ -29,7 +29,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, streak, navigation })
           <Text style={styles.hamburgerText}>≡</Text>
         </TouchableOpacity>
         <Text style={styles.streak} testID="streak-display">
-          {streak} jours
+          {streak} <Image source={require('../../../../../FrontEnd/assets/icone_flamme.png')} style={styles.icon} />
         </Text>
       </View>
 
@@ -37,6 +37,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, streak, navigation })
       {isDrawerVisible && (
         <View style={styles.drawer} testID="drawer-menu">
           <DrawerNav onClose={toggleDrawer} navigation={navigation} />
+          <Image source={require('../../../../../FrontEnd/assets/icone_MC.png')} style={styles.iconMC} />
         </View>
       )}
 

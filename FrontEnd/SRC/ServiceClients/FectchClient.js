@@ -10,6 +10,16 @@ const FetchClient = {
         });
     },
 
+    async postFichier(url, body){
+        return await fetch(url,{
+            method:'POST',
+            headers:{
+                'Content-Type':'form-data',
+            },
+            body: JSON.stringify(body)
+        });
+    },
+
     async postConnexion(url, body){
         return await fetch(url,{
             method:'POST',

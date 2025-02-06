@@ -1,22 +1,28 @@
-const {check, validationResult } = require("express-validator");
+const { check, validationResult } = require('express-validator');
 
 exports.login = [
-  check('mail_utilisateur', 'L\'email doit être au format valide').isEmail(),
-  check('mot_de_passe', 'Le mot de passe doit comporter au minimum 8 caractères, 1 chiffre et 1 caractère spécial')
-    .isLength({ min: 8 })
-    .matches(/\d/)
-    .matches(/[!@#$%=^&*(),.?":{}|<>]/),
+  check('mail_utilisateur')
+    .notEmpty().withMessage('L\'email ne peut pas être vide')
+    .bail()
+    .isEmail().withMessage('L\'email doit être au format valide'),
+  check('mot_de_passe')
+    .notEmpty().withMessage('Le mot de passe ne peut pas être vide')
+    .bail()
+    .isLength({ min: 8 }).withMessage('Le mot de passe doit comporter au minimum 8 caractères')
+    .matches(/\d/).withMessage('Le mot de passe doit contenir au moins un chiffre')
+    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Le mot de passe doit contenir au moins un caractère spécial'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      // Regrouper les erreurs
+      // Ne renvoyer qu'une seule erreur
+      const firstError = errors.array({ onlyFirstError: true })[0];
       let response = {
         "code": 4221,
         "meta": {
-          "errors": errors.array().map(error => ({
-            field: error.param,
-            message: error.msg
-          }))
+          "error": {
+            "field": firstError.param,
+            "message": firstError.msg
+          }
         },
       };
       return res.status(422).json(response);

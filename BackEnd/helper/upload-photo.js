@@ -1,4 +1,4 @@
-const supabase = require('../server').supabase;
+const supabase = require('../config/supabase');
 const { decode } = require("base64-arraybuffer"); 
 async function uploadPhoto(photoFile) {
   try {
@@ -6,12 +6,12 @@ async function uploadPhoto(photoFile) {
     const fileName = `mur-${Date.now()}-${photoFile.originalname}`; // Assurez-vous de bien conserver le nom d'origine du fichier
     // Téléchargement du fichier dans Supabase
     const fileBase64 = decode(photoFile.buffer.toString("base64"));
+    
     const { data, error } = await supabase.storage
         .from('photos')  // Bucket 'photos'
         .upload(fileName, photoFile.buffer, {
           contentType: photoFile.mimetype,  // Utilisation dynamique du type de contenu
         });
-
     if (error) {
         console.error('Erreur lors du téléchargement de la photo:', error.message);
         return null;

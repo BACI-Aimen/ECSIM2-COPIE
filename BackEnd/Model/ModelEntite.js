@@ -1,4 +1,4 @@
-const supabase = require('../server').supabase;
+const supabase = require('../config/supabase')
 
 exports.getEntitemurRecherche = async () => {
     try {

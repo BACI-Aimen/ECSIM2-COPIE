@@ -12,7 +12,7 @@ module.exports = function(app) {
     app.post('/login',                                          verif.login,                    ControllerUtilisateur.login)
     //GESTION DES MURS
     app.get('/mur/:id_mur',                                                                     ControllerMur.recupererMur)
-    app.delete('/Supprimer_Utilisateur/:id_utilisateur',         jwt.verifyTokenAdmin,          ControllerUtilisateur.SupprimerUtilisateur);
+    app.get('/getMurUtilisateursEtEntiteRecherche',             jwt.verifyTokenUser,            ControllerMur.getMurUtilisateursEtEntiteRecherche)
     //app.post('/addmur',                                         jwt.verifyTokenUser,            upload.single('photo_mur'), ControllerMur.ajouterMur); 
     //GESTION DES UTILISATEURS
     app.post('/createUser',                                     jwt.verifyTokenAdmin,           ControllerUtilisateur.creerCompteUser)
@@ -21,7 +21,7 @@ module.exports = function(app) {
     app.get('/compteUtilisateur/:id_utilisateur',               jwt.verifyTokenAdmin,           ControllerUtilisateur.getCompteUtilisateurById)
     app.get('/monCompteUtilisateur',                            jwt.verifyTokenUser,            ControllerUtilisateur.getMonCompteUtilisateurById)
     app.get('/getAllUtilisateurs',                              jwt.verifyTokenAdmin,           ControllerUtilisateur.getAllUtilisateurs)
-    app.get('/getMurUtilisateursEtEntiteRecherche',             jwt.verifyTokenUser,            ControllerMur.getMurUtilisateursEtEntiteRecherche)
+    app.delete('/Supprimer_Utilisateur/:id_utilisateur',        jwt.verifyTokenAdmin,          ControllerUtilisateur.SupprimerUtilisateur);
     //PODOMETRE
     app.post('/addNbPasJour',                                   jwt.verifyTokenUser,            ControllerPodometre.ajouterPodometre)
     //CLASSEMENT

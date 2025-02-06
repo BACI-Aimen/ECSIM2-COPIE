@@ -51,50 +51,6 @@ exports.login= async (req, res) => {
 };
 
 
-
-// exports.loginAdmin = async (req, res) => {
-//   try {
-//     const { mail_utilisateur, mot_de_passe } = req.body;
-//     if (!mail_utilisateur || !mot_de_passe) {
-//       return res.status(400).json({ error: 'Email et mot de passe requis.' });
-//     }
-
-//     // Rechercher l'utilisateur dans la base de données
-//     const utilisateur = await ModelUtilisateur.trouverParEmail(mail_utilisateur);
-//     if (!utilisateur) {
-//       return res.status(400).json({ error: 'Utilisateur non trouvé.',message: 'Utilisateur non existant' });
-//     }
-//     if(utilisateur.pseudo_utilisateur===null)
-//       first_connexion = true
-//       else first_connexion = false
-//     // Comparer le mot de passe avec le mot de passe haché
-//     const match = await bcrypt.compare(mot_de_passe, utilisateur.mdp_utilisateur);
-//     if (!match) {
-//       return res.status(400).json({ error: 'Mot de passe incorrect.',message: 'Mot de passe incorrect.' });
-//     }
-
-//     // Vérifier si l'utilisateur est un administrateur
-//     if (!utilisateur.isAdmin) {
-//       return res.status(403).json({ error: 'Accès réservé aux administrateurs.',message: 'Accès réservé aux administrateurs.' });
-//     }
-
-//     // Créer le payload pour le token (ex: l'ID de l'utilisateur)
-//     const payload = {
-//       id_utilisateur: utilisateur.id_utilisateur,
-//       mail_utilisateur: utilisateur.mail_utilisateur,
-//     };
-
-//     // Générer le token JWT avec une expiration de 1 heure
-//     const token = jwt.sign(payload, process.env.JWT_SECRET_ADMIN, { expiresIn: '1h' });
-
-//     return res.status(200).json({ message: 'Connexion réussie', token,first_connexion });
-//   } catch (err) {
-//     console.error("Erreur interne :", err.message);
-//     return res.status(500).json({ error: 'Erreur lors de la connexion de l\'utilisateur' });
-//   }
-// };
-
-
 exports.creerCompteUser = async (req, res) => {
     try {
         const { mail_utilisateur, id_entité, role} = req.body;

@@ -69,25 +69,28 @@ const FirstConnexion = () => {
       {/* Zone erreur */}
       <Text style={styles.error}>{error}</Text>
 
-      {/* Avatar */}
-      <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
-        {selectedImage ? (
-          <Image source={{ uri: selectedImage }} style={styles.avatar} />
-        ) : (
-          <Image source={require("../../../../assets/AppareilPhoto.png")} style={styles.avatar} />
-        )}
-      </TouchableOpacity>
+        <View style={styles.row}>
+            {/* Avatar */}
+            <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
+                {selectedImage ? (
+                <Image source={{ uri: selectedImage }} style={styles.avatar} />
+                ) : (
+                <Image source={require("../../../../assets/AppareilPhoto.png")} style={styles.avatar} />
+                )}
+            </TouchableOpacity>
 
-      {/* Champ Pseudo */}
-      <View style={styles.inputContainer}>
-        <Text style={styles.label}>Pseudo <Text style={styles.required}>*</Text></Text>
-        <TextInput 
-          style={styles.input} 
-          placeholder="Votre idée..." 
-          value={pseudo} 
-          onChangeText={setPseudo} 
-        />
-      </View>
+            {/* Champ Pseudo */}
+            <View style={styles.inputPseudoContainer}>
+                <Text style={styles.label}>Pseudo <Text style={styles.required}>*</Text></Text>
+                <TextInput 
+                style={styles.input} 
+                placeholder="Votre idée..." 
+                value={pseudo} 
+                onChangeText={setPseudo} 
+                />
+            </View>
+        </View>
+      
 
       <Text style={styles.passwordInfo}>
         Pour accéder à l’application, nous avons besoin d’un nouveau <Text style={styles.bold}>mot de passe</Text> personnel

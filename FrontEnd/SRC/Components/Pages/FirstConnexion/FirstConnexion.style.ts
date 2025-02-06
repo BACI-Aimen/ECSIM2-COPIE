@@ -7,6 +7,11 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         paddingHorizontal: 24,
       },
+      row: {
+        flexDirection: "row", // Aligner horizontalement
+        alignItems: "center", // Centrer verticalement
+        marginBottom: 20,
+      },
       title: {
         fontSize: 24,
         fontWeight: "bold",
@@ -32,6 +37,8 @@ const styles = StyleSheet.create({
         backgroundColor: "#ddd",
         justifyContent: "center",
         alignItems: "center",
+        marginRight: 16,
+        overflow: "hidden",
       },
       avatar: {
         width: 40,
@@ -39,6 +46,10 @@ const styles = StyleSheet.create({
       },
       inputContainer: {
         marginBottom: 12,
+      },
+      inputPseudoContainer: {
+        marginBottom: 12,
+        flex: 1
       },
       label: {
         fontSize: 14,

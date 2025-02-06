@@ -1,4 +1,4 @@
-const supabase = require('../server').supabase;
+const supabase = require('../config/supabase')
 exports.ajouterPodometre = async ({ nombrepas_podometre, id_utilisateur }) => {
   try {
     const todayStart = new Date();
@@ -159,6 +159,29 @@ exports.getMonClassementEntiteFille = async (startOfMonth, endOfMonth,entite_fil
     } else {
       const classementTrie = data.filter(item => item.utilisateur.id_entité !== null);
       const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);     
+      return classementTrie2;
+    }
+  } catch (err) {
+    console.error('Erreur lors de l\'exécution de la requête :', err.message);
+  }
+  
+};
+//-------------------------Fonctions du Scheduler-----------------------------------
+exports.getClassementMoisEnCoursCron = async (startOfMonth, endOfMonth) => {
+  try {
+    const { data, error } = await supabase
+      .from('podomètre_journalier')
+      .select('id_utilisateur,utilisateur(pseudo_utilisateur,isAdmin,id_mur), totalpas:nombrepas_podometre.sum()')
+      .gte('created_at_podometre', startOfMonth.toISOString())
+      .lte('created_at_podometre', endOfMonth.toISOString())
+      .eq('utilisateur.isAdmin', false) // Filtrer les utilisateurs non-admin
+        
+    if (error) {
+      console.error('Erreur lors de l\'agrégation :', error.message);
+      throw error;
+    } else {
+      const classementTrie = data.filter(item => item.utilisateur !== null);
+      const classementTrie2 = classementTrie.sort((a, b) => b.totalpas - a.totalpas);      
       return classementTrie2;
     }
   } catch (err) {

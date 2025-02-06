@@ -3,17 +3,16 @@ var express = require('express')
 var app = express();
 require('dotenv').config();
 var bodyParser = require('body-parser')
-const { createClient } = require('@supabase/supabase-js');
-//pour gerer la bdd
-const supabaseUrl = process.env.SUPABASE_PROJET
-const supabaseKey = process.env.SUPABASE_KEY
-const supabase = createClient(supabaseUrl, supabaseKey)
+//la bdd
+require('./config/supabase');
 //pour gerer les photos
 const multer = require('multer');
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+//le cron
+require('./config/cron');
 
-module.exports = { supabase,upload}; // Assurez-vous d'exporter 'upload' ici
+module.exports = {upload};
 
 app.use(bodyParser.json({
   verify: (req, res, buf) => {

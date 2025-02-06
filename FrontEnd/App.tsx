@@ -1,14 +1,18 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
 
 import StackNavigator from './StackNavigator';
+import LoaderProvider from './SRC/Context/loaderProvider';
+
 
 export default function App() {
+
   return (
-    <NavigationContainer>
-      <StackNavigator />
-      <StatusBar/>
-    </NavigationContainer>
+    <LoaderProvider>
+      <NavigationContainer>
+        <StackNavigator />
+        <StatusBar/>
+      </NavigationContainer>
+    </LoaderProvider>
   );
 }

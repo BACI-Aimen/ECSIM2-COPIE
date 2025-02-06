@@ -308,17 +308,3 @@ exports.SupprimerUtilisateur = async (req, res) => {
     return res.status(500).json({ error: err.message }); // En cas d'erreur
   }
 };
-
-exports.getAllUtilisateursRecherche = async (req, res) => {
-  try {
-    const utilisateurs = await ModelUtilisateur.getAllUtilisateursRecherche();
-
-    if (!utilisateurs || utilisateurs.length === 0) {
-      return res.status(404).json({ error: "Aucun utilisateur trouvé" });
-    }
-
-    return res.status(200).json(utilisateurs); // Retourne la liste des utilisateurs
-  } catch (err) {
-    return res.status(500).json({ error: err.message });
-  }
-};

@@ -1,7 +1,7 @@
 require('dotenv').config();
 const ModelPodometre = require('../Model/ModelPodometre');
 const ModelUtilisateur = require('../Model/ModelUtilisateur');
-
+const ModelMur = require('../Model/ModelMur')
 exports.getClassementUtilisateurActuel = async (req, res) => {
   try {
     // Récupération de la date actuelle
@@ -255,3 +255,25 @@ exports.getMonClassementEntiteFilleHistorique = async (req, res) => {
     return res.status(500).json({ error: 'Erreur lors de la récupération du classement.' });
   }
 };
+//-----------------------POUR LE SCHEDULER---------------------//
+exports.updateMedaille = async () => {
+  const now = new Date();
+  now.setMonth(now.getMonth() -1); // Décrémente d'un mois
+
+  const mois = String(now.getMonth() + 1).padStart(2, '0'); // Ajoute un zéro devant si nécessaire
+  const annee = now.getFullYear();
+  const startOfMonth = new Date(annee, mois - 1, 1); // Premier jour du mois spécifié
+  const endOfMonth = new Date(annee, mois, 1); // Dernier jour du mois spécifié
+  //je dois le faire pour chaque entité (mere et fille)
+  //const classement = await ModelPodometre.getMonClassementEntiteFille(startOfMonth, endOfMonth,entite_fille);
+
+  //---------------------------------------Classement MC ------------------------------------//
+  const classement = await ModelPodometre.getClassementMoisEnCoursCron(startOfMonth, endOfMonth);
+  await ModelMur.incrementGold(classement[0].utilisateur.id_mur)
+  await ModelMur.incrementSilver(classement[1].utilisateur.id_mur)
+  await ModelMur.incrementBronze(classement[2].utilisateur.id_mur)
+
+  console.log(`📢 Mois précédent : ${startOfMonth}/${endOfMonth}`);
+};
+
+

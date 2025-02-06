@@ -12,13 +12,11 @@ const StackNavigator = () => {
     return(
         <Stack.Navigator screenOptions={{ headerShown: false}}>
             <Stack.Group>
-            
+                <Stack.Screen name="Connexion" component={ConnexionMain} />
                 <Stack.Screen name="Home" component={HomeMain}/>
                 <Stack.Screen name="MonCompte" component={MonCompte} />
                 <Stack.Screen name="MonMur" component={MonMur} />
-                <Stack.Screen name="Historique" component={Historique} />
-                <Stack.Screen name="Connexion" component={ConnexionMain} />
-                
+                <Stack.Screen name="Historique" component={Historique} />  
             </Stack.Group>
         </Stack.Navigator>
     )

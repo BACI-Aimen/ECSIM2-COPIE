@@ -7,7 +7,6 @@ class ClassementService {
     async getClassementUtilisateurActuel() {
       try {
         const response = await this.httpClient.get(process.env.EXPO_PUBLIC_URL_API+'classementUtilisateurActuel');
-        console.log(response)
         return response.json();
       } catch (error) {
         console.error("Erreur dans getClassementUtilisateurActuel :", error);

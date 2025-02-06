@@ -1,4 +1,4 @@
-const supabase = require('../server').supabase;
+const supabase = require('../config/supabase')
 exports.ajouterMur = async (photo_mur) => {
   try {
     // Insertion du mur dans la table 'mur' avec des valeurs par défaut
@@ -56,6 +56,47 @@ exports.SupprimerMurById = async (id_mur) => {
     return { message: "Mur supprimé avec succès" };
   } catch (err) {
     console.error("Erreur lors de la suppression du mur :", err.message);
+    throw new Error(err.message);
+  }
+};
+
+exports.incrementGold = async (id_mur, x = 1) => {
+  try {
+    const { data, error } = await supabase
+      .rpc('increment_gold', { x, row_id: id_mur });
+
+    if (error) throw error;
+
+    return { message: `Gold incrémenté de ${x} avec succès` };
+  } catch (err) {
+    console.error("Erreur lors de l'ajout de gold :", err.message);
+    throw new Error(err.message);
+  }
+};
+
+exports.incrementSilver = async (id_mur, x = 1) => {
+  try {
+    const { data, error } = await supabase
+      .rpc('increment_silver', { x, row_id: id_mur });
+
+    if (error) throw error;
+
+    return { message: `Silver incrémenté de ${x} avec succès` };
+  } catch (err) {
+    console.error("Erreur lors de l'ajout de gold :", err.message);
+    throw new Error(err.message);
+  }
+};
+exports.incrementBronze = async (id_mur, x = 1) => {
+  try {
+    const { data, error } = await supabase
+      .rpc('increment_bronze', { x, row_id: id_mur });
+
+    if (error) throw error;
+
+    return { message: `Bronze incrémenté de ${x} avec succès` };
+  } catch (err) {
+    console.error("Erreur lors de l'ajout de gold :", err.message);
     throw new Error(err.message);
   }
 };

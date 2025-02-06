@@ -1,4 +1,4 @@
-const supabase = require('../server').supabase;
+const supabase = require('../config/supabase')
 
 exports.creerUtilisateur = async ({mail_utilisateur,mdp_utilisateur, id_entité,role }) => {
   try {

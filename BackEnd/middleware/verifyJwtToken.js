@@ -16,7 +16,7 @@ exports.verifyTokenUser = (req, res, next) => {
   }
 };
 exports.verifyTokenAdmin = (req, res, next) => {
-  const token = req.header('t_ADMIN_STEPBYMIAGE');
+  const token = req.header('t_USER_STEPBYMIAGE');
   if (!token) {
     return res.status(401).json({ error: 'Accès interdit, token manquant.' });
   }

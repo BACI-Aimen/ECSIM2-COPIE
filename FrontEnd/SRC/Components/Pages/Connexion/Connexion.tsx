@@ -28,10 +28,15 @@ const ConnexionMain = () => {
       );
       if(retour.message) {
         await SecureStore.setItemAsync('token', retour.token)
-        navigation.navigate("Home")
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Home' }],
+        });
+        
       }
     } catch (error: any) {
-      alert(error.message)
+      //alert(error)
+      console.log(error)
     }
   };
 

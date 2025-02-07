@@ -42,6 +42,7 @@ const HomeMain: React.FC<HomeMainProps> = ({ navigation }) => {
         <ScrollView contentContainerStyle={{ alignItems: 'center', paddingTop: 20, paddingBottom: 20 }}>
           <SearchBar onSearch={handleSearch} />
           <CircularCounter value={steps} />
+          
           <DropDown 
             selected={selectedClassement} 
             onSelect={(option: string) => setSelectedClassement(option)} 

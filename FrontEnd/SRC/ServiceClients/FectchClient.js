@@ -6,6 +6,7 @@ const FetchClient = {
             headers:{
                 'Content-Type':'application/json',
                 't_USER_STEPBYMIAGE': SecureStore.getItem('token')
+                
             }
         });
     },

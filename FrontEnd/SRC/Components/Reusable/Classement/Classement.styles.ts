@@ -12,7 +12,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingBottom: 5,
     borderBottomWidth: 1,
-    borderBottomColor: '#2B309B', // Ligne de séparation bleue pour l'en-tête
+    borderBottomColor: '#2B309B', 
   },
   headerText: {
     flex: 1,
@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   loaderContainer: {
-    // On peut garder une hauteur minimale pour le loader si besoin
     minHeight: 100,
     justifyContent: 'center',
     alignItems: 'center',
@@ -31,7 +30,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingVertical: 10,
-    borderBottomColor: '#2B309B', // Ligne bleue pour séparer chaque ligne
+    borderBottomColor: '#2B309B', 
     borderBottomWidth: 1,
   },
   rankColumn: {
@@ -50,6 +49,34 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#2B309B',
     textAlign: 'center',
+  },
+  highlightText: {
+    color: 'red',
+    fontWeight: 'bold',
+  },
+
+  modalOpenButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#2B309B',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  modalCloseButton: {
+    marginTop: 10,
+    padding: 10,
+    backgroundColor: '#2B309B',
+    borderRadius: 5,
+    alignItems: 'center',
+  },
+  modalButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  modalContainer: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f2f2f2',
   },
 });
 

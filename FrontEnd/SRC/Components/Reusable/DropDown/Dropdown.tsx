@@ -22,8 +22,8 @@ const closedOptions = [
 const modalOptions = [
   "Associations",
   "Universités",
-  "Mon association",
   "Mon université",
+  "Mon association",
   "Membre MC",
 ];
 

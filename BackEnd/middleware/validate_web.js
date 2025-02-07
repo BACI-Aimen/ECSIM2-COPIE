@@ -10,7 +10,7 @@ exports.login = [
     .bail()
     .isLength({ min: 8 }).withMessage('Le mot de passe doit comporter au minimum 8 caractères')
     .matches(/\d/).withMessage('Le mot de passe doit contenir au moins un chiffre')
-    .matches(/[!@#$%^&*(),.?":{}|<>]/).withMessage('Le mot de passe doit contenir au moins un caractère spécial'),
+    .matches(/[!@#$%^&*(),.?":{}|<>+-=_]/).withMessage('Le mot de passe doit contenir au moins un caractère spécial'),
   (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -18,7 +18,7 @@ exports.login = [
       const firstError = errors.array({ onlyFirstError: true })[0];
       let response = {
         "code": 4221,
-        "meta": {
+        "meta": { 
           "error": {
             "field": firstError.param,
             "message": firstError.msg

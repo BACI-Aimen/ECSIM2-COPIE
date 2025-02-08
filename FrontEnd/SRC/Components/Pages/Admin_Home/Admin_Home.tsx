@@ -18,10 +18,10 @@ interface Admin_HomeProps {
   }
 
 const menuItems = [
-    { id: "1", title: "Gestion des réactions", icon: require("../../../../assets/Admin_gestion_reaction.png") },
-    { id: "2", title: "Gestion des comptes", icon: require("../../../../assets/Admin_gestion_compte.png") },
-    { id: "3", title: "Gestion des badges", icon: require("../../../../assets/Admin_gestion_badge.png") },
-    { id: "4", title: "Gestion des entités", icon: require("../../../../assets/Admin_gestion_entite.png") },  
+    { id: "1", title: "Gestion des réactions", icon: require("../../../../assets/Admin_gestion_reaction.png"), screen:"" },
+    { id: "2", title: "Gestion des comptes", icon: require("../../../../assets/Admin_gestion_compte.png"), screen:"Gestion des comptes" },
+    { id: "3", title: "Gestion des badges", icon: require("../../../../assets/Admin_gestion_badge.png"), screen:"" },
+    { id: "4", title: "Gestion des entités", icon: require("../../../../assets/Admin_gestion_entite.png"), screen:"" },  
 ]
 
 const Admin_Home: React.FC<Admin_HomeProps> = ({ navigation }) => {
@@ -48,7 +48,7 @@ const Admin_Home: React.FC<Admin_HomeProps> = ({ navigation }) => {
           data={menuItems}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
-            <TouchableOpacity style={styles.card} onPress={() => {}}>
+            <TouchableOpacity style={styles.card} onPress={() => navigation.navigate(item.screen)}>
               <Image source={item.icon} style={styles.icon} />
               <Text style={styles.cardText}>{item.title}</Text>
             </TouchableOpacity>

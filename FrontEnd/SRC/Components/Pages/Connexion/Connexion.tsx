@@ -28,17 +28,24 @@ const ConnexionMain = () => {
       if(!retour.hasOwnProperty('error')) {
         toggleLoader();
         await SecureStore.setItemAsync('token', retour.token)
-        if(retour.first_connexion){
+        if(retour.isAdmin){
           navigation.reset({
             index: 0,
-            routes: [{ name: 'FirstConnexion' }],
+            routes: [{ name: 'HomeAdmin' }],
           });
-        }else{
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'Home' }],
-          });
-        } 
+        }else {
+          if(retour.first_connexion){
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'FirstConnexion' }],
+            });
+          }else{
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+            });
+          } 
+        }
       }else{
         setError(retour.message)
         toggleLoader();

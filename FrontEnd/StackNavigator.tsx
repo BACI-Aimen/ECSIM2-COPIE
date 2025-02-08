@@ -6,6 +6,7 @@ import MonCompte from './SRC/Components/Pages/MonCompte/MonCompte';
 import MonMur from './SRC/Components/Pages/MonMur/MonMur';
 import Historique from './SRC/Components/Pages/Historique/Historique';
 import FirstConnexion from "./SRC/Components/Pages/FirstConnexion/FirstConnexion";
+import Admin_Home from "./SRC/Components/Pages/Admin_Home/Admin_Home";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,8 @@ const StackNavigator = () => {
                 <Stack.Screen name="MonCompte" component={MonCompte} />
                 <Stack.Screen name="MonMur" component={MonMur} />
                 <Stack.Screen name="Historique" component={Historique} />  
+
+                <Stack.Screen name="HomeAdmin" component={Admin_Home} />
             </Stack.Group>
         </Stack.Navigator>
     )

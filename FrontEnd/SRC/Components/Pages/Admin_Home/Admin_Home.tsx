@@ -11,6 +11,7 @@ import styles from './Admin_Home.styles';
 import HealthData from '../../../Health/HealthData';
 import { View, Text, TouchableOpacity, StyleSheet, FlatList, Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import * as SecureStore from 'expo-secure-store';
 
 interface Admin_HomeProps {
     navigation: any;
@@ -25,11 +26,19 @@ const menuItems = [
 
 const Admin_Home: React.FC<Admin_HomeProps> = ({ navigation }) => {
 
+  const deconnexion = () => {
+    SecureStore.deleteItemAsync("token");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Connexion' }],
+    });
+  }
+
     return (
         
 
         <View style={styles.container}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButton}>
+        <TouchableOpacity onPress={deconnexion} style={styles.backButton}>
           <Text style={styles.backText}>⬅</Text>
         </TouchableOpacity>
         

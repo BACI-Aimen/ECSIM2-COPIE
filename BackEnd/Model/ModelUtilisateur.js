@@ -243,3 +243,76 @@ exports.getAllmurRecherche = async () => {
     throw new Error(err.message);
   }
 };
+
+exports.updatePseudoUtilisateur = async (id_utilisateur, nouveauPseudo) => {
+  try {
+    // Vérification que le pseudo n'est pas vide
+    if (!nouveauPseudo || nouveauPseudo.trim().length === 0) {
+      throw new Error("Le nouveau pseudo ne peut pas être vide");
+    }
+
+    // Mettre à jour le pseudo dans la base de données
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .update({ pseudo_utilisateur: nouveauPseudo })
+      .eq('id_utilisateur', id_utilisateur) // Filtrer par ID utilisateur
+      .select(); // Récupérer les nouvelles données (optionnel)
+
+    if (error) throw error; // Si erreur Supabase
+
+    if (!data || data.length === 0) {
+      throw new Error("L'utilisateur n'a pas pu être trouvé ou mis à jour");
+    }
+
+    return data[0]; // Retourner l'utilisateur mis à jour
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du pseudo de l'utilisateur :", err.message);
+    throw new Error(err.message);
+  }
+};
+
+exports.updateMdpUtilisateur = async (id_utilisateur, hashedMdp) => {
+  try {
+    // Mettre à jour le mot de passe dans la base de données
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .update({ mdp_utilisateur: hashedMdp })
+      .eq('id_utilisateur', id_utilisateur) // Filtrer par ID utilisateur
+      .select(); // Récupérer les nouvelles données (optionnel)
+
+    if (error) throw error; // Si erreur Supabase
+
+    if (!data || data.length === 0) {
+      throw new Error("L'utilisateur n'a pas pu être trouvé ou mis à jour");
+    }
+
+    return data[0]; // Retourner l'utilisateur mis à jour
+  } catch (err) {
+    console.error("Erreur lors de la mise à jour du mot de passe de l'utilisateur :", err.message);
+    throw new Error(err.message);
+  }
+};
+
+exports.getMdpUser = async (id_utilisateur) => {
+  try {
+    // Mettre à jour le mot de passe dans la base de données
+    const { data, error } = await supabase
+      .from('utilisateur')
+      .select('mdp_utilisateur') // Récupérer les nouvelles données 
+      .eq('id_utilisateur', id_utilisateur); // Filtrer par ID utilisateur
+      
+    if (error) throw error; // Si erreur Supabase
+
+    if (!data || data.length === 0) {
+      throw new Error("L'utilisateur n'a pas pu être trouvé");
+    }
+
+    const oldmdp = data[0].mdp_utilisateur;
+
+    return oldmdp; 
+  } catch (err) {
+    console.error("Erreur lors de récupération de l'ancien mot de passe de l'utilisateur :", err.message);
+    throw new Error(err.message);
+  }
+};
+

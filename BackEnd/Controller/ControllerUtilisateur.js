@@ -6,6 +6,8 @@ const transporter = require('../helper/emailConfig');
 const jwt = require('jsonwebtoken');
 const uploadPhoto = require('../helper/upload-photo'); // Importez la fonction pour télécharger la photo
 
+const saltRounds = 10;
+
 exports.login= async (req, res) => {
   try {
     const { mail_utilisateur, mot_de_passe } = req.body;
@@ -62,7 +64,7 @@ exports.creerCompteUser = async (req, res) => {
           return res.status(400).json({ error: "L'email fourni est déjà utilisé." });
         }
         const motDePasse = generateRandomPassword();
-        const saltRounds = 10;
+        //const saltRounds = 10;
         
         const motDePasseHache = await bcrypt.hash(motDePasse, saltRounds);
         mdp_utilisateur=motDePasseHache
@@ -156,7 +158,7 @@ exports.finaliserInscription = async (req, res) => {
       });
   }
   //Hash le mot de passe
-  const saltRounds = 10;
+  //const saltRounds = 10;
         
   const motDePasseHache = await bcrypt.hash(nouveauMotDePasse, saltRounds);
   await ModelUtilisateur.updateUtilisateurInscription(id_utilisateur, pseudo, motDePasseHache,nouveauMur.id_mur);   
@@ -262,5 +264,70 @@ exports.SupprimerUtilisateur = async (req, res) => {
     return res.status(200).json(result); // Réponse avec message de succès
   } catch (err) {
     return res.status(500).json({ error: err.message }); // En cas d'erreur
+  }
+};
+
+exports.updatePseudo = async (req, res) => {
+  const { id_utilisateur, pseudo_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
+  console.log(id_utilisateur, pseudo_utilisateur)
+  try {
+    // Vérification des données reçues
+    if (!id_utilisateur || !pseudo_utilisateur) {
+      return res.status(400).json({ error: "L'ID utilisateur et le nouveau pseudo sont nécessaires" });
+    }
+
+    
+    // Appel du modèle pour mettre à jour le pseudo
+    const utilisateurMisAJour = await ModelUtilisateur.updatePseudoUtilisateur(id_utilisateur, pseudo_utilisateur);
+
+    // Retourner la réponse avec l'utilisateur mis à jour
+    return res.status(200).json({
+      message: "Le pseudo a été mis à jour avec succès",
+      utilisateur: utilisateurMisAJour
+    });
+  } catch (err) {
+    // Retourner l'erreur si quelque chose échoue
+    return res.status(500).json({ error: err.message });
+  }
+};
+
+exports.updateMdp = async (req, res) => {
+  const { id_utilisateur, mdp_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
+  console.log(mdp_utilisateur)
+
+  try {
+    // Vérification des données reçues
+    if (!id_utilisateur || !mdp_utilisateur) {
+      return res.status(400).json({ error: "L'ID utilisateur ou le nouveau mot de passe manquant" });
+    }
+
+    // // Vérifier que le mot de passe a une longueur minimale
+    // if (mdp_utilisateur.length < 6) {
+    //   return res.status(400).json({ error: "Le mot de passe doit contenir au moins 6 caractères" });
+    // }
+
+    const oldmdp = await ModelUtilisateur.getMdpUser(id_utilisateur)
+    console.log(oldmdp)
+    // Comparer le mot de passe avec le mot de passe haché
+    const match = await bcrypt.compare(mdp_utilisateur, oldmdp);
+    if (match) {
+      return res.status(400).json({ error: 'Mot de passe incorrect.' ,message: 'Le mot de passe doit être différent de celui existant'});
+    }
+
+    // Hachage du mot de passe
+    const hashedMdp = await bcrypt.hash(mdp_utilisateur, saltRounds);
+
+
+    // Appel du modèle pour mettre à jour le mot de passe
+    const utilisateurMisAJour = await ModelUtilisateur.updateMdpUtilisateur(id_utilisateur, hashedMdp);
+
+    // Retourner la réponse avec l'utilisateur mis à jour
+    return res.status(200).json({
+      message: "Le mot de passe a été mis à jour avec succès",
+      utilisateur: utilisateurMisAJour
+    });
+  } catch (err) {
+    // Retourner l'erreur si quelque chose échoue
+    return res.status(500).json({ error: err.message });
   }
 };

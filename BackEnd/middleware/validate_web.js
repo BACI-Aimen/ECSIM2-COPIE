@@ -18,12 +18,10 @@ exports.login = [
       const firstError = errors.array({ onlyFirstError: true })[0];
       let response = {
         "code": 4221,
-        "meta": { 
-          "error": {
-            "field": firstError.param,
-            "message": firstError.msg
-          }
+        "error": {
+          "field": firstError.param,
         },
+        "message": firstError.msg
       };
       return res.status(422).json(response);
     }

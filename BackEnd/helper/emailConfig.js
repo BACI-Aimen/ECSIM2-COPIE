@@ -8,7 +8,12 @@ const transporter = nodemailer.createTransport({
     user: process.env.MAIL,
     pass: process.env.MDP_MAIL,
   },
+  tls: {
+    rejectUnauthorized: false
+  }
 });
+
+
 console.log(process.env.MAIL);
 
 // Vérifiez la connexion à Gmail

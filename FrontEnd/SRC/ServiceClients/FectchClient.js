@@ -11,6 +11,16 @@ const FetchClient = {
         });
     },
 
+    async postFichier(url, body){
+        return await fetch(url,{
+            method:'POST',
+            headers:{
+                't_USER_STEPBYMIAGE': SecureStore.getItem('token')
+            },
+            body: body
+        });
+    },
+
     async postConnexion(url, body){
         return await fetch(url,{
             method:'POST',

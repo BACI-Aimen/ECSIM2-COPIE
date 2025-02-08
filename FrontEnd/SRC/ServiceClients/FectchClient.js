@@ -14,9 +14,9 @@ const FetchClient = {
         return await fetch(url,{
             method:'POST',
             headers:{
-                'Content-Type':'form-data',
+                't_USER_STEPBYMIAGE': SecureStore.getItem('token')
             },
-            body: JSON.stringify(body)
+            body: body
         });
     },
 

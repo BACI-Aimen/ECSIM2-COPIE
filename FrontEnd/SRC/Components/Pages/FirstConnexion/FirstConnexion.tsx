@@ -17,15 +17,17 @@ const FirstConnexion = () => {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const [selectedImage, setSelectedImage] = useState("");
+  const [isValid, setIsValid] = useState(false);
 
   const [error, setError] = useState("");
 
   const { toggleLoader } = useContext(LoaderContext);
   const navigation = useNavigation();
+  const FormData = global.FormData;
 
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      mediaTypes: ['images'],
       allowsEditing: true,
       aspect: [1, 1],
       quality: 1,
@@ -40,23 +42,29 @@ const FirstConnexion = () => {
     toggleLoader();
     const API_Utilisateur = new UtilisateurService(FetchClient);
     try{
-        const retour = await API_Utilisateur.finaliserInscription({
-            photo_mur:selectedImage,
-            pseudo: pseudo,
-            nouveauMotDePasse: password,
-            confirmerNouveauMotDePasse: confirmPassword
-        });
-        toggleLoader();
-        if(retour.message){
-            navigation.reset({
-                index: 0,
-                routes: [{ name: 'Home' }],
-            });
-        }
-        
+      const response = await fetch(selectedImage);
+      const blob = await response.blob();
+      const formData = new FormData();
+      formData.append(`photo_mur`, {
+        uri: selectedImage,
+        name:"photo_mur.jpg",
+        type: blob.type,
+      } as any);
+      formData.append("pseudo", pseudo)
+      formData.append("nouveauMotDePasse", password)
+      formData.append("confirmerNouveauMotDePasse",confirmPassword)
+      const retour = await API_Utilisateur.finaliserInscription(formData);
+      toggleLoader();
+      if(retour.message){
+          navigation.reset({
+              index: 0,
+              routes: [{ name: 'Home' }],
+          });
+      }
+      setError(retour.error)
     }catch(error: any){
-        setError(error)
-        toggleLoader();
+      setError(error.error)
+      toggleLoader();
     }
   }
 
@@ -73,7 +81,7 @@ const FirstConnexion = () => {
             {/* Avatar */}
             <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
                 {selectedImage ? (
-                <Image source={{ uri: selectedImage }} style={styles.avatar} />
+                <Image source={{ uri: selectedImage }} style={styles.avatarSelected} />
                 ) : (
                 <Image source={require("../../../../assets/AppareilPhoto.png")} style={styles.avatar} />
                 )}

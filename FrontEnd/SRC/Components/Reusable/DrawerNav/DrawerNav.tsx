@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import styles from './DrawerNav.styles';
+import * as SecureStore from 'expo-secure-store';
 
 type DrawerNavProps = {
   onClose?: () => void;
@@ -13,6 +14,14 @@ const DrawerNav: React.FC<DrawerNavProps> = ({ onClose, navigation }) => {
     if (onClose) onClose(); // Ferme le menu
     navigation.navigate(screen);
   };
+
+  const deconnexion = () => {
+    SecureStore.deleteItemAsync("token");
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Connexion' }],
+    });
+  }
 
   return (
     <View style={styles.container}>
@@ -27,7 +36,7 @@ const DrawerNav: React.FC<DrawerNavProps> = ({ onClose, navigation }) => {
         <Text style={styles.linkText}>Historique</Text>
       </TouchableOpacity>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={() => handleNavigation('Connexion')} style={styles.logoutButton}>
+        <TouchableOpacity onPress={deconnexion} style={styles.logoutButton}>
           <Text style={styles.logoutText}>Se déconnecter</Text>
         </TouchableOpacity>
       </View>

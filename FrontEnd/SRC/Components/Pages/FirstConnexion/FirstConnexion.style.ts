@@ -40,6 +40,10 @@ const styles = StyleSheet.create({
         marginRight: 16,
         overflow: "hidden",
       },
+      avatarSelected: {
+        width: "100%",
+        height: "100%",
+      },
       avatar: {
         width: 40,
         height: 40,

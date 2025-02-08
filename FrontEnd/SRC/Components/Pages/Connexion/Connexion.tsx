@@ -24,20 +24,27 @@ const ConnexionMain = () => {
       const retour = await API_Utilisateur.connexionUtilisateur(
         {mail_utilisateur:login,mot_de_passe:Mdp}
       );
-      if(retour.message) {
-        await SecureStore.setItemAsync('token', retour.token)
+      console.log(retour)
+      if(!retour.hasOwnProperty('error')) {
         toggleLoader();
-        navigation.reset({
-          index: 0,
-          routes: [{ name: 'Home' }],
-        });
-        
+        await SecureStore.setItemAsync('token', retour.token)
+        if(retour.first_connexion){
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'FirstConnexion' }],
+          });
+        }else{
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'Home' }],
+          });
+        } 
       }else{
-        setError(retour.meta.error.message)
+        setError(retour.message)
         toggleLoader();
       }
     } catch (error: any) {
-      setError(error)
+      setError(error.message)
     }
   };
 

@@ -34,6 +34,16 @@ class UtilisateurService {
             throw error
         }
     }
+
+    async GetCompteUtilisateur(params){
+        try{
+            const response = await this.httpClient.get(process.env.EXPO_PUBLIC_URL_API+'compteUtilisateur/'+params)
+            return response.json()
+        } catch(error){
+            console.log("Erreur service : "+ error)
+            throw error
+        }
+    }
 }
 
 export default UtilisateurService

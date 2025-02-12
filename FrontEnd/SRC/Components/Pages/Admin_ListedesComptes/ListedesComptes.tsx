@@ -108,9 +108,13 @@ const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
           {selectedUser && (
             <>
               <Text style={styles.modalTitle}>Consulter compte</Text>
+              <Text style={styles.under_title} >Pseudo</Text>
               <TextInput style={styles.input} value={selectedUser.pseudo_utilisateur} editable={false} />
+              <Text style={styles.under_title}> E-mail</Text>
               <TextInput style={styles.input} value={selectedUser.mail_utilisateur} editable={false} />
+              <Text style={styles.under_title}> Rôle</Text>
               <TextInput style={styles.input} value={selectedUser.role} editable={false} />
+              <Text style={styles.under_title} >Entitée rattachée</Text>
               <TextInput style={styles.input} value={selectedUser.libellé_entité} editable={false} />
               <TouchableOpacity style={styles.validateButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.validateText}>Valider</Text>

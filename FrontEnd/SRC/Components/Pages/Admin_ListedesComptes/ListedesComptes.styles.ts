@@ -87,11 +87,13 @@ modalContent: {
     width: "80%",
     backgroundColor: "#ffffff",
     padding: 20,
+    paddingTop: 0,
     borderRadius: 10,
-    alignItems: "center",
+    //alignItems: "center",
 },
 closeButton: {
     alignSelf: "flex-end",
+    marginTop: 10,
     fontSize: 20,
     color: "#0F136B",
 },
@@ -99,7 +101,7 @@ modalTitle: {
     fontSize: 18,
     fontWeight: "bold",
     color: "#0F136B",
-    marginBottom: 10,
+    marginBottom: 20,
 },
 input: {
     width: "100%",
@@ -109,19 +111,25 @@ input: {
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
-    textAlign: "center",
-    color: "#0F136B",
+    textAlign: "left",
+    color: "#545F71",
+},
+under_title: {
+  color: "#545F71" ,
+  textAlign: "left",
+  marginBottom: 2,
 },
 validateButton: {
     backgroundColor: "#0F136B",
     paddingVertical: 10,
-    paddingHorizontal: 20,
     borderRadius: 8,
     marginTop: 10,
+    width: "60%",
 },
 validateText: {
     color: "#ffffff",
     fontWeight: "bold",
+    textAlign: "center",
 },
 });
   

@@ -14,6 +14,7 @@ interface User {
 }
 
 interface UserDetails {
+  id_utilisateur: number
   pseudo_utilisateur: string;
   mail_utilisateur: string;
   role: string;
@@ -29,6 +30,7 @@ const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
   const [accounts, setAccounts] = useState<User[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserDetails | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
+  const [modalEditVisible, setEditModalVisible] = useState(false);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -46,16 +48,53 @@ const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
   const fetchUserDetails = async (userId: number) => {
     try {
         const userDetails = await utilisateurService.GetCompteUtilisateur(userId);
+        
         setSelectedUser(userDetails);
         setModalVisible(true);
     } catch (error) {
         console.error("Error fetching user details:", error);
     }
 };
-    
-  const filteredAccounts = accounts.filter(account => 
-      account.pseudo_utilisateur.toLowerCase().includes(search.toLowerCase())
-  );
+
+const fetchUserDetailsEdit = async (userId: number) => {
+  try {
+      const userDetails = await utilisateurService.GetCompteUtilisateur(userId);
+      // Ajout de l'ID utilisateur dans l'objet retourné
+      const userWithId = { id_utilisateur: userId, ...userDetails };
+
+      setSelectedUser(userWithId);
+      //setSelectedUser(userDetails);
+      setEditModalVisible(true);
+  } catch (error) {
+      console.error("Error fetching user details:", error);
+  }
+};
+  
+const updateUserDetails = async () => {
+  if (selectedUser) {
+    try {
+      await utilisateurService.UpdateCompteUtilisateur(selectedUser);
+      setEditModalVisible(false);
+    } catch (error) {
+      console.error("Error updating user details:", error);
+    }
+  }
+};
+
+// const deleteUser = async () => {
+//   if (selectedUser) {
+//     try {
+//       await utilisateurService.DeleteCompteUtilisateur(selectedUser.id);
+//       setModalVisible(false);
+//     } catch (error) {
+//       console.error("Error deleting user:", error);
+//     }
+//   }
+// };
+
+const filteredAccounts = accounts.filter(account => 
+  account.pseudo_utilisateur.toLowerCase().includes(search.toLowerCase())
+);
 
   return (
     <View style={styles.container}>
@@ -93,7 +132,7 @@ const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
           <TouchableOpacity onPress={() => {fetchUserDetails(item.id_utilisateur);}}>
             <Text style={styles.accountText}>{item.pseudo_utilisateur}</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.editButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.editButton} onPress={() => {fetchUserDetailsEdit(item.id_utilisateur)}}>
             <Text style={styles.editText}>Édition</Text>
           </TouchableOpacity>
         </View>
@@ -119,6 +158,36 @@ const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
               <TouchableOpacity style={styles.validateButton} onPress={() => setModalVisible(false)}>
                 <Text style={styles.validateText}>Valider</Text>
               </TouchableOpacity>
+            </>
+          )}
+        </View>
+      </View>
+    </Modal>
+    <Modal visible={modalEditVisible} animationType="slide" transparent>
+      <View style={styles.modalContainer}>
+        <View style={styles.modalContent}>
+          <TouchableOpacity onPress={() => setEditModalVisible(false)}>
+            <Text style={styles.closeButton}>✖</Text>
+          </TouchableOpacity>
+          {selectedUser && (
+            <>
+              <Text style={styles.modalTitle}>Edition compte</Text>
+              <Text style={styles.under_title} >Pseudo</Text>
+              <TextInput style={styles.input} value={selectedUser.pseudo_utilisateur} onChangeText={(text) => setSelectedUser({ ...selectedUser, pseudo_utilisateur: text })} />
+              <Text style={styles.under_title}> E-mail</Text>
+              <TextInput style={styles.input} value={selectedUser.mail_utilisateur} onChangeText={(text) => setSelectedUser({ ...selectedUser, mail_utilisateur: text })} />
+              <Text style={styles.under_title}> Rôle</Text>
+              <TextInput style={styles.input} value={selectedUser.role} onChangeText={(text) => setSelectedUser({ ...selectedUser, role: text })} />
+              <Text style={styles.under_title} >Entitée rattachée</Text>
+              <TextInput style={styles.input} value={selectedUser.libellé_entité} onChangeText={(text) => setSelectedUser({ ...selectedUser, libellé_entité: text })} />
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.deleteButton}>
+                  <Text style={styles.deleteText}>Supprimer</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.validateButton} onPress={updateUserDetails}>
+                  <Text style={styles.validateText}>Valider</Text>
+                </TouchableOpacity>
+              </View>
             </>
           )}
         </View>

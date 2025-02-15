@@ -40,6 +40,17 @@ const FetchClient = {
             },
             body: JSON.stringify(body)
         });
+    },
+
+    async put(url, body){
+        return await fetch(url,{
+            method:'PUT',
+            headers:{
+                'Content-Type':'application/json',
+                't_USER_STEPBYMIAGE': SecureStore.getItem('token')
+            },
+            body: JSON.stringify(body)
+        });
     }
 }
 

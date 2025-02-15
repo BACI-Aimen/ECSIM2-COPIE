@@ -131,6 +131,23 @@ validateText: {
     fontWeight: "bold",
     textAlign: "center",
 },
+buttonRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    marginTop: 10,
+},
+deleteButton: {
+    backgroundColor: "#DC2626",
+    padding: 12,
+    borderRadius: 5,
+    alignItems: "center",
+    flex: 1,
+    marginRight: 5,
+},
+deleteText: {
+    color: "#fff",
+    fontWeight: "bold",
+},
 });
   
   export default styles;

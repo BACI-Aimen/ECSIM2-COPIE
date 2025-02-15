@@ -5,6 +5,7 @@ import styles from './ListedesComptes.styles';
 import { View, Text, Button, Modal, TextInput, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import UtilisateurService from "../../../Services/UtilisateurService";
 import FetchClient from '../../../ServiceClients/FectchClient';
+import { Picker } from '@react-native-picker/picker';
 
 const utilisateurService = new UtilisateurService(FetchClient);
 
@@ -177,7 +178,12 @@ const filteredAccounts = accounts.filter(account =>
               <Text style={styles.under_title}> E-mail</Text>
               <TextInput style={styles.input} value={selectedUser.mail_utilisateur} onChangeText={(text) => setSelectedUser({ ...selectedUser, mail_utilisateur: text })} />
               <Text style={styles.under_title}> Rôle</Text>
-              <TextInput style={styles.input} value={selectedUser.role} onChangeText={(text) => setSelectedUser({ ...selectedUser, role: text })} />
+              <Picker
+                selectedValue={selectedUser.role}
+                onValueChange={(itemValue : string) => setSelectedUser({ ...selectedUser, role: itemValue })}>
+                <Picker.Item label="Administrateur" value="Administrateur" />
+                <Picker.Item label="Utilisateur" value="Utilisateur" />
+              </Picker>
               <Text style={styles.under_title} >Entitée rattachée</Text>
               <TextInput style={styles.input} value={selectedUser.libellé_entité} onChangeText={(text) => setSelectedUser({ ...selectedUser, libellé_entité: text })} />
               <View style={styles.buttonRow}>

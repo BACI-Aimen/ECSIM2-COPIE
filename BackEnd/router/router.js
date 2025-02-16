@@ -4,6 +4,7 @@ module.exports = function(app) {
     const ControllerUtilisateur = require('../Controller/ControllerUtilisateur');
     const ControllerPodometre = require('../Controller/ControllerPodometre');
     const ConrollerClassement = require('../Controller/ControllerClassement');
+    const ControllerEntite = require('../Controller/ControllerEntite');
 
     const jwt = require('../middleware/verifyJwtToken');
     const verif = require('../middleware/validate_web');
@@ -37,6 +38,10 @@ module.exports = function(app) {
     app.get('/MonclassementEntiteMereHistorique/:mois/:annee',  jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteMereHistorique)
     app.get('/MonclassementEntiteFilleActuel',                  jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteFilleActuel)
     app.get('/MonclassementEntiteFilleHistorique/:mois/:annee', jwt.verifyTokenUser,            ConrollerClassement.getMonClassementEntiteFilleHistorique)
+    //GESTION DES ENTITES
+    app.get('/getAllEntiteMere',                                jwt.verifyTokenAdmin,           ControllerEntite.getAllEntiteMere)
+    app.get('/getAllEntiteFilles',                              jwt.verifyTokenAdmin,           ControllerEntite.getAllEntiteFilles)
+
 }
 
 

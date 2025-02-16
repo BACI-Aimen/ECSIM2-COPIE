@@ -15,3 +15,33 @@ exports.getEntitemurRecherche = async () => {
       throw new Error(err.message);
     }
   };
+  exports.getAllentiteMere = async () => {
+    try {
+        const { data, error } = await supabase
+            .from('entité')
+            .select('id_entité, libellé_entité')
+            .is('id_entité_1', null);
+
+        if (error) throw error;
+
+        return data;
+    } catch (err) {
+        console.error("Erreur lors de la récupération des entités filles :", err.message);
+        throw new Error(err.message);
+    }
+};
+exports.getAllentiteFilles = async () => {
+  try {
+      const { data, error } = await supabase
+          .from('entité')
+          .select('id_entité, libellé_entité')
+          .not('id_entité_1', 'is', null);
+
+      if (error) throw error;
+
+      return data;
+  } catch (err) {
+      console.error("Erreur lors de la récupération des entités filles :", err.message);
+      throw new Error(err.message);
+  }
+};

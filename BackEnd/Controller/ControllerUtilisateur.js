@@ -174,18 +174,16 @@ exports.updateCompte = async (req, res) => {
     if (!id_utilisateur) {
       throw new Error("L'ID utilisateur est requis.");
     }
-    const updateFields = {};
-
+    const updateFields = {};    
     // Vérifier quels champs doivent être mis à jour
     if (mail_utilisateur) updateFields.mail_utilisateur = mail_utilisateur;
     if (pseudo_utilisateur) updateFields.pseudo_utilisateur = pseudo_utilisateur;
-    if (role !== undefined) updateFields.isAdmin = role; 
+    if (role !== undefined) updateFields.isAdmin = role;
+    if(role=='Utilisateur') updateFields.isAdmin = false;
+    else updateFields.isAdmin = true;     
     if (id_entite) updateFields.id_entité = id_entite;
 
-    // // Vérifier si au moins un champ est à mettre à jour
-    // if (Object.keys(updateFields).length === 0) {
-    //   throw new Error("Aucune donnée à mettre à jour.");
-    // }
+
     const updatedUser = await ModelUtilisateur.updateCompte({
       updateFields,
       id_utilisateur

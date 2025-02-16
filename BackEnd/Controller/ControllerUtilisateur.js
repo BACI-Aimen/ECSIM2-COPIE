@@ -266,8 +266,9 @@ exports.SupprimerUtilisateur = async (req, res) => {
 };
 
 exports.updatePseudo = async (req, res) => {
-  const { id_utilisateur, pseudo_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
-  console.log(id_utilisateur, pseudo_utilisateur)
+  id_utilisateur= req.user.id_utilisateur
+  const {pseudo_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
+  //console.log(id_utilisateur, pseudo_utilisateur)
   try {
     // Vérification des données reçues
     if (!id_utilisateur || !pseudo_utilisateur) {
@@ -290,8 +291,8 @@ exports.updatePseudo = async (req, res) => {
 };
 
 exports.updateMdp = async (req, res) => {
-  const { id_utilisateur, mdp_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
-  console.log(mdp_utilisateur)
+  id_utilisateur= req.user.id_utilisateur  
+  const { mdp_utilisateur } = req.body; // Récupère les paramètres dans le corps de la requête
 
   try {
     // Vérification des données reçues

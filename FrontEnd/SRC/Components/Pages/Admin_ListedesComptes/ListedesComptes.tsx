@@ -4,10 +4,12 @@ import React, { useState, useEffect } from 'react';
 import styles from './ListedesComptes.styles';
 import { View, Text, Button, Modal, TextInput, FlatList, TouchableOpacity, StyleSheet } from "react-native";
 import UtilisateurService from "../../../Services/UtilisateurService";
+import EntiteService from "../../../Services/EntiteService";
 import FetchClient from '../../../ServiceClients/FectchClient';
 import { Picker } from '@react-native-picker/picker';
 
 const utilisateurService = new UtilisateurService(FetchClient);
+const entiteService = new EntiteService(FetchClient);
 
 interface User {
     id_utilisateur: number;
@@ -15,7 +17,7 @@ interface User {
 }
 
 interface UserDetails {
-  id_utilisateur: number
+  id_utilisateur: number;
   pseudo_utilisateur: string;
   mail_utilisateur: string;
   role: string;
@@ -26,9 +28,16 @@ interface ListedesComptesProps {
     navigation: any;
 }
 
+interface EntiteFille {
+    id_entité: number;
+    libellé_entité: string;
+}
+
+
 const ListedesComptes: React.FC<ListedesComptesProps> = ({ navigation }) => {
   const [search, setSearch] = useState("");
   const [accounts, setAccounts] = useState<User[]>([]);
+  const [ListeEntiteFille, setListEntiteFille] = useState<EntiteFille[]>([]);
   const [selectedUser, setSelectedUser] = useState<UserDetails | null>(null);
   const [modalVisible, setModalVisible] = useState(false);
   const [modalEditVisible, setEditModalVisible] = useState(false);
@@ -62,8 +71,11 @@ const fetchUserDetailsEdit = async (userId: number) => {
       const userDetails = await utilisateurService.GetCompteUtilisateur(userId);
       // Ajout de l'ID utilisateur dans l'objet retourné
       const userWithId = { id_utilisateur: userId, ...userDetails };
-
+      const Entite = await entiteService.GetAllEntiteFille();
+      
       setSelectedUser(userWithId);
+      setListEntiteFille(Entite)
+      console.log(ListeEntiteFille)
       //setSelectedUser(userDetails);
       setEditModalVisible(true);
   } catch (error) {
@@ -185,7 +197,15 @@ const filteredAccounts = accounts.filter(account =>
                 <Picker.Item label="Utilisateur" value="Utilisateur" />
               </Picker>
               <Text style={styles.under_title} >Entitée rattachée</Text>
-              <TextInput style={styles.input} value={selectedUser.libellé_entité} onChangeText={(text) => setSelectedUser({ ...selectedUser, libellé_entité: text })} />
+              <Picker
+                selectedValue={selectedUser.libellé_entité}
+                onValueChange={(itemValue) => setSelectedUser({ ...selectedUser, libellé_entité: itemValue })}>
+                {ListeEntiteFille.map((entite, index) => (
+                // <Picker.Item key={index} label={libellé_entité} value={libellé_entité} />
+                  <Picker.Item key={index} label={entite.libellé_entité} value={entite.id_entité} />
+                ))}
+              </Picker>
+              {/* <TextInput style={styles.input} value={selectedUser.libellé_entité} onChangeText={(text) => setSelectedUser({ ...selectedUser, libellé_entité: text })} /> */}
               <View style={styles.buttonRow}>
                 <TouchableOpacity style={styles.deleteButton}>
                   <Text style={styles.deleteText}>Supprimer</Text>

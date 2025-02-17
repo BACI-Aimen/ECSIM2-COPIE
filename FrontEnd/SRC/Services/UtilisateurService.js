@@ -46,10 +46,8 @@ class UtilisateurService {
     }
 
     async UpdateCompteUtilisateur(body){
-        console.log(body)
         try{
             const response = await this.httpClient.put(process.env.EXPO_PUBLIC_URL_API+'updateUser', body)
-            console.log(response.json())
             return response.json()
         } catch(error){
             console.log("Erreur service : "+ error)

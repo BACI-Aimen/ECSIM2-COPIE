@@ -38,7 +38,22 @@ exports.recupererMur = async (id_mur) => {
     throw new Error(err.message);  // Retourne une erreur si quelque chose ne va pas
   }
 };
+exports.updatePhotoMur = async (photoURL,id_mur) => {
+  try {
+    const { error } = await supabase
+    .from('mur')
+    .update({ photo_mur: photoURL })
+    .eq('id_mur', id_mur);
+    if (error) {
+      throw new Error(error.message);
+    }
 
+    return null;  // Retourne le premier mur trouvé ou null s'il n'y en a pas
+  } catch (err) {
+    console.error("Erreur interne :", err.message);
+    throw new Error(err.message);  // Retourne une erreur si quelque chose ne va pas
+  }
+};
 exports.SupprimerMurById = async (id_mur) => {
   try {
     if (!id_mur) {
@@ -59,7 +74,22 @@ exports.SupprimerMurById = async (id_mur) => {
     throw new Error(err.message);
   }
 };
-
+exports.SupprimerImageBucket = async (anciennePhotoURL) => {
+  try {
+      if (anciennePhotoURL) {
+          const anciennePhotoPath = anciennePhotoURL.split('/').pop();
+          const { error: deleteError } = await supabase.storage
+              .from('photos')
+              .remove([anciennePhotoPath]);
+          
+          if (deleteError) throw deleteError;
+          console.log("Ancienne photo supprimée avec succès");
+      }
+  } catch (err) {
+      console.error("Erreur lors de la suppression de l'ancienne photo:", err.message);
+      throw new Error(err.message);
+  }
+};
 exports.incrementGold = async (id_mur, x = 1) => {
   try {
     const { data, error } = await supabase

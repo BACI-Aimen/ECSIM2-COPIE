@@ -329,3 +329,37 @@ exports.updateMdp = async (req, res) => {
     return res.status(500).json({ error: err.message });
   }
 };
+exports.changerPhotoProfil = async (req,res) => {
+  try {
+    console.log('Début du changement de photo de profil');
+    const id_utilisateur = req.user.id_utilisateur;
+    const photo_mur = req.file;
+    const id_mur = await ModelUtilisateur.getIdMurByUserId(id_utilisateur)    
+  if (!id_mur) throw new Error("Utilisateur sans mur associé");
+  
+
+    const mur=await ModelMur.recupererMur(id_mur)
+    
+   const anciennePhotoURL = mur?.photo_mur;
+   await ModelMur.SupprimerImageBucket(anciennePhotoURL)
+
+    //Recup la nouvelle photo
+      const photoURL = await uploadPhoto(photo_mur);  // Utilisez photo_mur comme fichier binaire        
+      if (!photoURL) {
+          return res.status(500).json({ error: "Erreur lors du téléchargement de la photo." });
+      }
+      // Vérification de la taille de l'image
+      if (photo_mur.size > 1 * 1024 * 1024) {  // Limite de 1 Mo
+        return res.status(400).json({ error: "La taille de l'image ne doit pas dépasser 1 Mo." });
+      }
+  
+      await ModelMur.updatePhotoMur(photoURL,id_mur)
+console.log('Photo du mur mise à jour avec succès');
+return res.status(200).json({
+  message: "La photo a bien été modifier"
+});
+  } catch (err) {
+      console.error('Erreur lors du changement de photo de profil:', err.message);
+      throw new Error(err.message);
+  }
+};

@@ -24,6 +24,7 @@ module.exports = function(app) {
     app.get('/getAllUtilisateurs',                              jwt.verifyTokenAdmin,           ControllerUtilisateur.getAllUtilisateurs)
     app.delete('/Supprimer_Utilisateur/:id_utilisateur',        jwt.verifyTokenAdmin,           ControllerUtilisateur.SupprimerUtilisateur);
     app.patch('/ModifierPseudoUtilisateur',                     jwt.verifyTokenUser,            ControllerUtilisateur.updatePseudo);
+    app.patch('/ModifierPP',                                    jwt.verifyTokenUser,            upload.single('photo_mur'),ControllerUtilisateur.changerPhotoProfil);
     app.patch('/ModifierMdpUtilisateur',                        [jwt.verifyTokenUser, verif.updateMdp],            ControllerUtilisateur.updateMdp);
     //PODOMETRE
     app.post('/addNbPasJour',                                   jwt.verifyTokenUser,            ControllerPodometre.ajouterPodometre)

@@ -306,7 +306,6 @@ exports.updateMdp = async (req, res) => {
     // }
 
     const oldmdp = await ModelUtilisateur.getMdpUser(id_utilisateur)
-    console.log(oldmdp)
     // Comparer le mot de passe avec le mot de passe haché
     const match = await bcrypt.compare(mdp_utilisateur, oldmdp);
     if (match) {

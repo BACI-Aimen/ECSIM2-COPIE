@@ -5,7 +5,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import MainLayout from '../../Reusable/Layout/MainLayout';
 import SearchBar from '../../Reusable/SearchBar/SearchBar';
 import CircularCounter from '../../Reusable/CircularCounter/CircularCounter';
-import DropDown from '../../Reusable/DropDown/DropDown';
+import DropDown from '../../Reusable/DropDown/Dropdown';
 import Classement from '../../Reusable/Classement/Classement';
 import styles from './Home.styles';
 import HealthData from '../../../Health/HealthData';

@@ -1,0 +1,136 @@
+CREATE TABLE Mur(
+   id_mur SERIAL,
+   gold_mur INT DEFAULT 0,
+   silver_mur INT DEFAULT 0,
+   bronze_mur INT DEFAULT 0,
+   photo_mur VARCHAR(200),
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_mur)
+);
+
+CREATE TABLE Entité(
+   id_entité SERIAL,
+   libellé_entité VARCHAR(50),
+   id_entité_1 INT,
+   id_mur INT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_entité),
+   UNIQUE(id_entité_1),
+   FOREIGN KEY(id_entité_1) REFERENCES Entité(id_entité),
+   FOREIGN KEY(id_mur) REFERENCES Mur(id_mur)
+);
+
+CREATE TABLE Badge(
+   id_badge SERIAL,
+   nom_badge VARCHAR(50),
+   description_badge VARCHAR(50),
+   image_badge VARCHAR (200),
+   critere_badge VARCHAR(50),
+   nombre_badge INT,
+   periodicite_debut_badge DATE,
+   periodicite_fin_badge DATE,
+   created_at_badge DATE,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_badge)
+);
+
+CREATE TABLE Réaction(
+   id_reaction SERIAL,
+   nom_Reaction VARCHAR(50),
+   texte_Reaction VARCHAR(50),
+   image_Reaction BYTEA,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_reaction)
+);
+
+CREATE TABLE TypeClassement(
+   id_TypeClassement SERIAL,
+   nom_TypeClassement VARCHAR(50),
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_TypeClassement)
+);
+
+CREATE TABLE Evenement(
+   id_evenement SERIAL,
+   created_at_evenement DATE,
+   id_badge INT NOT NULL,
+   id_mur INT NOT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_evenement),
+   FOREIGN KEY(id_badge) REFERENCES Badge(id_badge),
+   FOREIGN KEY(id_mur) REFERENCES Mur(id_mur)
+);
+
+CREATE TABLE Utilisateur(
+   id_utilisateur SERIAL,
+   pseudo_utilisateur VARCHAR(50),
+   mail_utilisateur VARCHAR(50),
+   MDP_utilisateur VARCHAR(200),
+   current_streak INT DEFAULT 0,
+   type_utilisateur BOOLEAN DEFAULT false,
+   id_entité INT,
+   id_mur INT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_utilisateur),
+   FOREIGN KEY(id_entité) REFERENCES Entité(id_entité),
+   FOREIGN KEY(id_mur) REFERENCES Mur(id_mur)
+);
+
+CREATE TABLE Classement(
+   id_Classement SERIAL,
+   mois_courrant_classement DATE,
+   created_at_classement DATE,
+   id_TypeClassement INT NOT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_Classement),
+   FOREIGN KEY(id_TypeClassement) REFERENCES TypeClassement(id_TypeClassement)
+);
+
+CREATE TABLE Podomètre_journalier(
+   id_podometre SERIAL,
+   created_at_Podometre DATE,
+   nombrePas_Podometre INT,
+   id_utilisateur INT NOT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_podometre),
+   FOREIGN KEY(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+);
+
+CREATE TABLE Code(
+   id_code SERIAL,
+   code INT,
+   created_at_code DATE,
+   id_utilisateur INT NOT NULL,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_code),
+   FOREIGN KEY(id_utilisateur) REFERENCES Utilisateur(id_utilisateur)
+);
+
+CREATE TABLE Participe(
+   id_mur INT,
+   id_Classement INT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_mur, id_Classement),
+   FOREIGN KEY(id_mur) REFERENCES Mur(id_mur),
+   FOREIGN KEY(id_Classement) REFERENCES Classement(id_Classement)
+);
+
+CREATE TABLE débloque(
+   id_mur INT,
+   id_badge INT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_mur, id_badge),
+   FOREIGN KEY(id_mur) REFERENCES Mur(id_mur),
+   FOREIGN KEY(id_badge) REFERENCES Badge(id_badge)
+);
+
+CREATE TABLE Réagit(
+   id_utilisateur INT,
+   id_reaction INT,
+   id_evenement INT,
+   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   PRIMARY KEY(id_utilisateur, id_reaction, id_evenement),
+   FOREIGN KEY(id_utilisateur) REFERENCES Utilisateur(id_utilisateur),
+   FOREIGN KEY(id_reaction) REFERENCES Réaction(id_reaction),
+   FOREIGN KEY(id_evenement) REFERENCES Evenement(id_evenement)
+);
